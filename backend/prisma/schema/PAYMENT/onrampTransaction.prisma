@@ -1,0 +1,7 @@
+model OnrampTransaction {
+  id     String    @id @default(uuid())
+  userId String
+  amount Int
+  status String
+  user   User   @relation(fields: [userId], references: [id])
+}

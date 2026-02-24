@@ -1,0 +1,6 @@
+model Provider {
+  id                    String                    @id @default(uuid())
+  name                  String
+  website               String
+  modelProviderMappings ModelProviderMapping[]
+}

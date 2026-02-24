@@ -1,0 +1,10 @@
+model ModelProviderMapping {
+  id              String            @id @default(uuid())
+  modelId         String
+  providerId      String
+  inputTokenCost  Int
+  outputTokenCost Int
+  model           Model          @relation(fields: [modelId], references: [id])
+  provider        Provider       @relation(fields: [providerId], references: [id])
+  conversations   Conversation[]
+}

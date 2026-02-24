@@ -1,0 +1,13 @@
+model Conversation {
+  id                     String                  @id @default(uuid())
+  userId                 String
+  apiKeyId               String
+  modelProviderMappingId String
+  input                  String
+  output                 String
+  inputTokenCount        Int
+  outputTokenCount       Int
+  user                   User                 @relation(fields: [userId], references: [id])
+  apiKey                 ApiKey               @relation(fields: [apiKeyId], references: [id])
+  modelProviderMapping   ModelProviderMapping @relation(fields: [modelProviderMappingId], references: [id])
+}

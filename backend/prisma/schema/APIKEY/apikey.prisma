@@ -1,0 +1,12 @@
+model ApiKey {
+  id            String            @id @default(uuid())
+  userId        String
+  name          String
+  apiKey        String         @unique
+  disabled      Boolean        @default(false)
+  deleted       Boolean        @default(false)
+  lastUsed      DateTime?
+  creditsConsumed  Int        @default(0)
+  user          User           @relation(fields: [userId], references: [id])
+  conversations Conversation[]
+}
