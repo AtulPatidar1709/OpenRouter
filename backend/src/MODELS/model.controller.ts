@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ModelsService } from "./model.service.js";
 import { AppError } from "../utils/AppError.js";
-import { getModelProvidersResponseSchema, getProvidersResponseType } from "./model.schema.js";
 
 export const getAllModels = async (
   req: Request,
@@ -10,9 +9,7 @@ export const getAllModels = async (
 ) => {
   try {
     const providers = await ModelsService.getModels();
-    return {
-      providers,
-    };
+    res.status(200).json({ data: providers });
   } catch (error) {
     throw new AppError("Something went wrong while get all Models", 404);
   }
@@ -25,9 +22,7 @@ export const getProviders = async (
 ) => {
   try {
     const providers = await ModelsService.getProviders();
-    return {
-      providers,
-    } as getProvidersResponseType;
+    res.status(200).json({ data: providers });
   } catch (error) {
     throw new AppError("Something Went Wrong while getting Providers");
   }
@@ -43,9 +38,7 @@ export const getModelProviders = async (
     if (!id) throw new AppError("Model Id not found", 404);
 
     const providers = await ModelsService.getModelProviders(id);
-    return {
-      providers,
-    } as getModelProvidersResponseSchema;
+    res.status(200).json({ data: providers });
   } catch (error) {
     next(error);
   }

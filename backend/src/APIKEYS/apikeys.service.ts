@@ -1,11 +1,9 @@
 import { prisma } from "../config/prisma.js";
 
 const API_KEY_LENGTH = 20;
-const ALPHABET_SET =
-  "zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP1234567890";
+const ALPHABET_SET = "zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP1234567890";
 
-export abstract class ApiKeyService {
-  static createRandomApiKey() {
+  function createRandomApiKey() {
     let suffixKey = "";
     for (let i = 0; i < API_KEY_LENGTH; i++) {
       suffixKey +=
@@ -14,14 +12,14 @@ export abstract class ApiKeyService {
     return `sk-or-v1-${suffixKey}`;
   }
 
-  static async createApiKey(
+  export const createApiKey = async (
     name: string,
     userId: string,
   ): Promise<{
     id: string;
     apiKey: string;
-  }> {
-    const apiKey = ApiKeyService.createRandomApiKey();
+  }> => {
+    const apiKey = createRandomApiKey();
     const apiKeyDb = await prisma.apiKey.create({
       data: {
         name,
@@ -36,7 +34,7 @@ export abstract class ApiKeyService {
     };
   }
 
-  static async getApiKeys(userId: string) {
+  export const getApiKeys = async (userId: string) => {
     const apiKeys = await prisma.apiKey.findMany({
       where: {
         userId: userId,
@@ -54,11 +52,11 @@ export abstract class ApiKeyService {
     }));
   }
 
-  static async updateApiKeyDisabled(
+  export const updateApiKeyDisabled = async (
     id: string,
     userId: string,
     disabled: boolean,
-  ) {
+  ) => {
     await prisma.apiKey.update({
       where: {
         id,
@@ -70,7 +68,7 @@ export abstract class ApiKeyService {
     });
   }
 
-  static async delete(id: string, userId: string) {
+  export const deleteApi = async (id: string, userId: string) => {
     await prisma.apiKey.update({
       where: {
         id,
@@ -81,4 +79,4 @@ export abstract class ApiKeyService {
       },
     });
   }
-}
+

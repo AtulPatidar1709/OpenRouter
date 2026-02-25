@@ -1,4 +1,3 @@
-import { email } from 'zod';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { prisma } from '../config/prisma.js';

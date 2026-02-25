@@ -1,4 +1,4 @@
-import { ApiKeyService } from "./apikeys.service.js";
+import * as ApiKeyService from "./apikeys.service.js";
 import { getUserId } from "../Auth/helper/helper.js";
 import { NextFunction, Request, Response } from "express";
 import {
@@ -87,7 +87,7 @@ export const deleteApiKey = async (
       userId: userIdd,
     } = DeleteApiKeysSchema.parse(data);
 
-    await ApiKeyService.delete(id, userIdd);
+    await ApiKeyService.deleteApi(id, userIdd);
 
     res.status(201).json({
       message: "Api key deleted successfully",

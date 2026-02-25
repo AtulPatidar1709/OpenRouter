@@ -8,16 +8,7 @@ export abstract class ModelsService {
       },
     });
 
-    return models.map((model) => ({
-      id: model.id.toString(),
-      name: model.name,
-      slug: model.slug,
-      company: {
-        id: model.company.id.toString(),
-        name: model.company.name,
-        website: model.company.website,
-      },
-    }));
+    return models;
   }
 
   static async getProviders() {

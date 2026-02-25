@@ -60,7 +60,7 @@ export const verifyOtpController = async (
     };
     const data = OtpVerifySchema.parse(resData);
     const result = await authService.verifyOtp(data);
-    res.json(result);
+    res.status(203).json(result);
   } catch (error) {
     next(error);
   }
@@ -74,7 +74,7 @@ export const sendOtpController = async (
   try {
     const data = sendOtpInput.parse(req.body);
     const result = await authService.sendOtp(data);
-    res.json(result);
+    res.status(203).json(result);
   } catch (error) {
     next(error);
   }

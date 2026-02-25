@@ -1,13 +1,14 @@
 import cors from 'cors';
-import { config } from './config/config.js';
-import cookieParser from 'cookie-parser';
 import express from 'express';
-import { globalErrorHandler } from './middleware/globalErrorHandler.js';
+import cookieParser from 'cookie-parser';
+import { config } from './config/config.js';
 
 import authRoutes from "./Auth/auth.routes.js";
 import chatRoutes from "./CHAT/chat.routes.js";
 import apiRoutes from "./APIKEYS/apikeys.routes.js";
 import modelRoutes from "./MODELS/model.routes.js";
+
+import { globalErrorHandler } from './middleware/globalErrorHandler.js';
 
 const app = express();
 
@@ -36,4 +37,4 @@ app.use("/api/model", modelRoutes);
 
 app.use(globalErrorHandler);
 
-export { app };
+export { app };8
