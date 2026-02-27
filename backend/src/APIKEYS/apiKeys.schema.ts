@@ -2,8 +2,8 @@ import { z } from "zod";
 import { userIdField } from "../types/fields.schema.js";
 
 export const createApiKeySchema = z.object({
-   name: z.string().min(4),
-})
+  name: z.string().min(4),
+});
 
 export const createApiKeyReponse = z.object({
   id: z.string(),
@@ -31,8 +31,6 @@ export const DeleteApiKeysSchema = z.object({
 export const updateApiKeysSchema = DeleteApiKeysSchema.extend({
   disabled: z.boolean(),
 });
-
-
 
 export type getApiKeysResponseType = z.infer<typeof getApiKeysResponseSchema>;
 

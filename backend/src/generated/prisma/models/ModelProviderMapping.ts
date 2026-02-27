@@ -27,29 +27,29 @@ export type AggregateModelProviderMapping = {
 }
 
 export type ModelProviderMappingAvgAggregateOutputType = {
-  inputTokenCost: number | null
-  outputTokenCost: number | null
+  inputTokenCost: runtime.Decimal | null
+  outputTokenCost: runtime.Decimal | null
 }
 
 export type ModelProviderMappingSumAggregateOutputType = {
-  inputTokenCost: number | null
-  outputTokenCost: number | null
+  inputTokenCost: runtime.Decimal | null
+  outputTokenCost: runtime.Decimal | null
 }
 
 export type ModelProviderMappingMinAggregateOutputType = {
   id: string | null
   modelId: string | null
   providerId: string | null
-  inputTokenCost: number | null
-  outputTokenCost: number | null
+  inputTokenCost: runtime.Decimal | null
+  outputTokenCost: runtime.Decimal | null
 }
 
 export type ModelProviderMappingMaxAggregateOutputType = {
   id: string | null
   modelId: string | null
   providerId: string | null
-  inputTokenCost: number | null
-  outputTokenCost: number | null
+  inputTokenCost: runtime.Decimal | null
+  outputTokenCost: runtime.Decimal | null
 }
 
 export type ModelProviderMappingCountAggregateOutputType = {
@@ -187,8 +187,8 @@ export type ModelProviderMappingGroupByOutputType = {
   id: string
   modelId: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal
+  outputTokenCost: runtime.Decimal
   _count: ModelProviderMappingCountAggregateOutputType | null
   _avg: ModelProviderMappingAvgAggregateOutputType | null
   _sum: ModelProviderMappingSumAggregateOutputType | null
@@ -218,8 +218,8 @@ export type ModelProviderMappingWhereInput = {
   id?: Prisma.StringFilter<"ModelProviderMapping"> | string
   modelId?: Prisma.StringFilter<"ModelProviderMapping"> | string
   providerId?: Prisma.StringFilter<"ModelProviderMapping"> | string
-  inputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
-  outputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
+  inputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   model?: Prisma.XOR<Prisma.ModelScalarRelationFilter, Prisma.ModelWhereInput>
   provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
   conversations?: Prisma.ConversationListRelationFilter
@@ -243,8 +243,8 @@ export type ModelProviderMappingWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ModelProviderMappingWhereInput | Prisma.ModelProviderMappingWhereInput[]
   modelId?: Prisma.StringFilter<"ModelProviderMapping"> | string
   providerId?: Prisma.StringFilter<"ModelProviderMapping"> | string
-  inputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
-  outputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
+  inputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   model?: Prisma.XOR<Prisma.ModelScalarRelationFilter, Prisma.ModelWhereInput>
   provider?: Prisma.XOR<Prisma.ProviderScalarRelationFilter, Prisma.ProviderWhereInput>
   conversations?: Prisma.ConversationListRelationFilter
@@ -270,14 +270,14 @@ export type ModelProviderMappingScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ModelProviderMapping"> | string
   modelId?: Prisma.StringWithAggregatesFilter<"ModelProviderMapping"> | string
   providerId?: Prisma.StringWithAggregatesFilter<"ModelProviderMapping"> | string
-  inputTokenCost?: Prisma.IntWithAggregatesFilter<"ModelProviderMapping"> | number
-  outputTokenCost?: Prisma.IntWithAggregatesFilter<"ModelProviderMapping"> | number
+  inputTokenCost?: Prisma.DecimalWithAggregatesFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalWithAggregatesFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingCreateInput = {
   id?: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   model: Prisma.ModelCreateNestedOneWithoutModelProviderMappingsInput
   provider: Prisma.ProviderCreateNestedOneWithoutModelProviderMappingsInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutModelProviderMappingInput
@@ -287,15 +287,15 @@ export type ModelProviderMappingUncheckedCreateInput = {
   id?: string
   modelId: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutModelProviderMappingInput
 }
 
 export type ModelProviderMappingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   model?: Prisma.ModelUpdateOneRequiredWithoutModelProviderMappingsNestedInput
   provider?: Prisma.ProviderUpdateOneRequiredWithoutModelProviderMappingsNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutModelProviderMappingNestedInput
@@ -305,8 +305,8 @@ export type ModelProviderMappingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelId?: Prisma.StringFieldUpdateOperationsInput | string
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutModelProviderMappingNestedInput
 }
 
@@ -314,22 +314,22 @@ export type ModelProviderMappingCreateManyInput = {
   id?: string
   modelId: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelId?: Prisma.StringFieldUpdateOperationsInput | string
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingScalarRelationFilter = {
@@ -481,8 +481,8 @@ export type ModelProviderMappingUncheckedUpdateManyWithoutProviderNestedInput = 
 
 export type ModelProviderMappingCreateWithoutConversationsInput = {
   id?: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   model: Prisma.ModelCreateNestedOneWithoutModelProviderMappingsInput
   provider: Prisma.ProviderCreateNestedOneWithoutModelProviderMappingsInput
 }
@@ -491,8 +491,8 @@ export type ModelProviderMappingUncheckedCreateWithoutConversationsInput = {
   id?: string
   modelId: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingCreateOrConnectWithoutConversationsInput = {
@@ -513,8 +513,8 @@ export type ModelProviderMappingUpdateToOneWithWhereWithoutConversationsInput = 
 
 export type ModelProviderMappingUpdateWithoutConversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   model?: Prisma.ModelUpdateOneRequiredWithoutModelProviderMappingsNestedInput
   provider?: Prisma.ProviderUpdateOneRequiredWithoutModelProviderMappingsNestedInput
 }
@@ -523,14 +523,14 @@ export type ModelProviderMappingUncheckedUpdateWithoutConversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelId?: Prisma.StringFieldUpdateOperationsInput | string
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingCreateWithoutModelInput = {
   id?: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   provider: Prisma.ProviderCreateNestedOneWithoutModelProviderMappingsInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutModelProviderMappingInput
 }
@@ -538,8 +538,8 @@ export type ModelProviderMappingCreateWithoutModelInput = {
 export type ModelProviderMappingUncheckedCreateWithoutModelInput = {
   id?: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutModelProviderMappingInput
 }
 
@@ -576,14 +576,14 @@ export type ModelProviderMappingScalarWhereInput = {
   id?: Prisma.StringFilter<"ModelProviderMapping"> | string
   modelId?: Prisma.StringFilter<"ModelProviderMapping"> | string
   providerId?: Prisma.StringFilter<"ModelProviderMapping"> | string
-  inputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
-  outputTokenCost?: Prisma.IntFilter<"ModelProviderMapping"> | number
+  inputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFilter<"ModelProviderMapping"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingCreateWithoutProviderInput = {
   id?: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   model: Prisma.ModelCreateNestedOneWithoutModelProviderMappingsInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutModelProviderMappingInput
 }
@@ -591,8 +591,8 @@ export type ModelProviderMappingCreateWithoutProviderInput = {
 export type ModelProviderMappingUncheckedCreateWithoutProviderInput = {
   id?: string
   modelId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutModelProviderMappingInput
 }
 
@@ -625,14 +625,14 @@ export type ModelProviderMappingUpdateManyWithWhereWithoutProviderInput = {
 export type ModelProviderMappingCreateManyModelInput = {
   id?: string
   providerId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingUpdateWithoutModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   provider?: Prisma.ProviderUpdateOneRequiredWithoutModelProviderMappingsNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutModelProviderMappingNestedInput
 }
@@ -640,29 +640,29 @@ export type ModelProviderMappingUpdateWithoutModelInput = {
 export type ModelProviderMappingUncheckedUpdateWithoutModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutModelProviderMappingNestedInput
 }
 
 export type ModelProviderMappingUncheckedUpdateManyWithoutModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingCreateManyProviderInput = {
   id?: string
   modelId: string
-  inputTokenCost: number
-  outputTokenCost: number
+  inputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ModelProviderMappingUpdateWithoutProviderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   model?: Prisma.ModelUpdateOneRequiredWithoutModelProviderMappingsNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutModelProviderMappingNestedInput
 }
@@ -670,16 +670,16 @@ export type ModelProviderMappingUpdateWithoutProviderInput = {
 export type ModelProviderMappingUncheckedUpdateWithoutProviderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutModelProviderMappingNestedInput
 }
 
 export type ModelProviderMappingUncheckedUpdateManyWithoutProviderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   modelId?: Prisma.StringFieldUpdateOperationsInput | string
-  inputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
-  outputTokenCost?: Prisma.IntFieldUpdateOperationsInput | number
+  inputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  outputTokenCost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 
@@ -780,8 +780,8 @@ export type $ModelProviderMappingPayload<ExtArgs extends runtime.Types.Extension
     id: string
     modelId: string
     providerId: string
-    inputTokenCost: number
-    outputTokenCost: number
+    inputTokenCost: runtime.Decimal
+    outputTokenCost: runtime.Decimal
   }, ExtArgs["result"]["modelProviderMapping"]>
   composites: {}
 }
@@ -1211,8 +1211,8 @@ export interface ModelProviderMappingFieldRefs {
   readonly id: Prisma.FieldRef<"ModelProviderMapping", 'String'>
   readonly modelId: Prisma.FieldRef<"ModelProviderMapping", 'String'>
   readonly providerId: Prisma.FieldRef<"ModelProviderMapping", 'String'>
-  readonly inputTokenCost: Prisma.FieldRef<"ModelProviderMapping", 'Int'>
-  readonly outputTokenCost: Prisma.FieldRef<"ModelProviderMapping", 'Int'>
+  readonly inputTokenCost: Prisma.FieldRef<"ModelProviderMapping", 'Decimal'>
+  readonly outputTokenCost: Prisma.FieldRef<"ModelProviderMapping", 'Decimal'>
 }
     
 

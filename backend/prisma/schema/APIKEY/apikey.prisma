@@ -6,7 +6,7 @@ model ApiKey {
   disabled      Boolean        @default(false)
   deleted       Boolean        @default(false)
   lastUsed      DateTime?
-  creditsConsumed  Int        @default(0)
+  creditsConsumed  Decimal     @db.Decimal(10, 4) @default(0)
   user          User           @relation(fields: [userId], references: [id])
   conversations Conversation[]
 }

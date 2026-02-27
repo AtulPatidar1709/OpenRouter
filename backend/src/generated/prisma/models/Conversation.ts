@@ -479,6 +479,14 @@ export type ConversationUncheckedUpdateManyWithoutApiKeyNestedInput = {
   deleteMany?: Prisma.ConversationScalarWhereInput | Prisma.ConversationScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ConversationCreateNestedManyWithoutModelProviderMappingInput = {
   create?: Prisma.XOR<Prisma.ConversationCreateWithoutModelProviderMappingInput, Prisma.ConversationUncheckedCreateWithoutModelProviderMappingInput> | Prisma.ConversationCreateWithoutModelProviderMappingInput[] | Prisma.ConversationUncheckedCreateWithoutModelProviderMappingInput[]
   connectOrCreate?: Prisma.ConversationCreateOrConnectWithoutModelProviderMappingInput | Prisma.ConversationCreateOrConnectWithoutModelProviderMappingInput[]

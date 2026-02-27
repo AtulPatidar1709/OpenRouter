@@ -38,8 +38,12 @@ export const getModelProvidersResponseSchema = z.object({
   ),
 });
 
-export type getModelProvidersResponseSchema = z.infer<typeof getModelProvidersResponseSchema>;
+export type getModelProvidersResponseSchema = z.infer<
+  typeof getModelProvidersResponseSchema
+>;
 
-export type getProvidersResponseType = z.infer<typeof getProvidersResponseSchema>;
+export type getProvidersResponseType = z.infer<
+  typeof getProvidersResponseSchema
+>;
 
 export type getModelsResponseType = z.infer<typeof getModelsResponseSchema>;

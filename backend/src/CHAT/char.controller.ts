@@ -9,22 +9,21 @@ export interface getChatInterface {
 }
 
 export const getChatResponse = async (
-   req : Request,
-   res : Response,
-   next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
-   try {
-      const { model, apiKey, messages } : getChatInterface = req.body;
-      
-      const result = await ChatService.getChatResponse({
-        model,
-        apiKey,
-        messages,
-      });
+  try {
+    const { model, apiKey, messages }: getChatInterface = req.body;
 
-      res.status(200).json(result)
+    const result = await ChatService.getChatResponse({
+      model,
+      apiKey,
+      messages,
+    });
 
-   } catch (error) {
-      next(error);
-   }
-}
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -14,14 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const models = [
-  "gpt-4o",
-  "gpt-4o-mini",
-  "claude-3-opus",
-  "claude-3-sonnet",
-  "mixtral-8x7b",
-];
+import { useState } from "react";
+import { useApiKeys } from "@/hooks/apiKeys.hook";
+import { useModelsQuery } from "@/hooks/models.hook";
 
 interface Props {
   open: boolean;
@@ -29,6 +24,18 @@ interface Props {
 }
 
 export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
+  const [name, setName] = useState("");
+  const { createApiKey, isCreateLoading } = useApiKeys();
+  const { models, isModelsLoading } = useModelsQuery();
+
+  if (isModelsLoading) return <div>Loading...</div>;
+  if (!models) return <div>Models not Found.</div>;
+
+  const handleSubmit = () => {
+    onOpenChange(!open);
+    createApiKey({ name });
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -39,7 +46,11 @@ export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
         <div className="space-y-4">
           <div>
             <label className="text-sm font-medium">API Key Name</label>
-            <Input placeholder="e.g. Ecommerce Backend" />
+            <Input
+              placeholder="e.g. Ecommerce Backend"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           <div>
@@ -50,8 +61,8 @@ export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
               </SelectTrigger>
               <SelectContent>
                 {models.map((model) => (
-                  <SelectItem key={model} value={model}>
-                    {model}
+                  <SelectItem key={model.id} value={model.slug}>
+                    {model.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -63,7 +74,12 @@ export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button>Create Key</Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={isCreateLoading || name.length < 4}
+          >
+            {isCreateLoading ? "Creating..." : "Create Key"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

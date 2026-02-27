@@ -1,17 +1,17 @@
 import { prisma } from "../config/prisma.js";
+import { Prisma } from "../generated/prisma/client.js";
 import { AppError } from "../utils/AppError.js";
 import { getChatInterface } from "./char.controller.js";
+import { calculateCreditsUsed } from "./helper.js";
 import { LlmResponse } from "./llms/Base.js";
 import { Claude } from "./llms/Claude.js";
 import { Gemini } from "./llms/Gemini.js";
 import { OpenAi } from "./llms/OpenAi.js";
 
 export abstract class ChatService {
-  
-  static async getChatResponse({model, apiKey, messages}: getChatInterface) {
-  
+  static async getChatResponse({ model, apiKey, messages }: getChatInterface) {
     const [_companyName, providerModelName] = model.split("/");
-    
+
     const apiKeyDb = await prisma.apiKey.findFirst({
       where: {
         apiKey,
@@ -27,7 +27,7 @@ export abstract class ChatService {
       throw new AppError("Invalid api key", 403);
     }
 
-    if (apiKeyDb.user.credits <= 0) {
+    if (apiKeyDb.user.credits <= new Prisma.Decimal(0.0)) {
       throw new AppError("You dont have enough credits in your db", 403);
     }
 
@@ -73,11 +73,22 @@ export abstract class ChatService {
       throw new AppError("No provider found for this model", 403);
     }
 
-    const creditsUsed =
-      (response.inputTokensConsumed * provider.inputTokenCost +
-        response.outputTokensConsumed * provider.outputTokenCost) /
-      10;
-    console.log(creditsUsed);
+    console.log("Response after AI API CAll ,", response);
+
+    const MIN_CREDITS_PER_REQUEST = 0.25;
+
+    const calculatedCredits = calculateCreditsUsed({
+      inputTokens: response.inputTokensConsumed,
+      outputTokens: response.outputTokensConsumed,
+      inputCostPer1K: provider.inputTokenCost.toNumber(),
+      outputCostPer1K: provider.outputTokenCost.toNumber(),
+    });
+
+    const creditsUsed = Prisma.Decimal.max(
+      calculatedCredits,
+      new Prisma.Decimal(MIN_CREDITS_PER_REQUEST),
+    );
+
     const res = await prisma.user.update({
       where: {
         id: apiKeyDb.user.id,
@@ -88,7 +99,7 @@ export abstract class ChatService {
         },
       },
     });
-    console.log(res);
+
     const res2 = await prisma.apiKey.update({
       where: {
         apiKey: apiKey,
@@ -99,7 +110,6 @@ export abstract class ChatService {
         },
       },
     });
-    console.log(res2);
 
     return response;
   }

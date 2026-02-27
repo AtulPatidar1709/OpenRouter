@@ -27,11 +27,11 @@ export type AggregateApiKey = {
 }
 
 export type ApiKeyAvgAggregateOutputType = {
-  creditsConsumed: number | null
+  creditsConsumed: runtime.Decimal | null
 }
 
 export type ApiKeySumAggregateOutputType = {
-  creditsConsumed: number | null
+  creditsConsumed: runtime.Decimal | null
 }
 
 export type ApiKeyMinAggregateOutputType = {
@@ -42,7 +42,7 @@ export type ApiKeyMinAggregateOutputType = {
   disabled: boolean | null
   deleted: boolean | null
   lastUsed: Date | null
-  creditsConsumed: number | null
+  creditsConsumed: runtime.Decimal | null
 }
 
 export type ApiKeyMaxAggregateOutputType = {
@@ -53,7 +53,7 @@ export type ApiKeyMaxAggregateOutputType = {
   disabled: boolean | null
   deleted: boolean | null
   lastUsed: Date | null
-  creditsConsumed: number | null
+  creditsConsumed: runtime.Decimal | null
 }
 
 export type ApiKeyCountAggregateOutputType = {
@@ -205,7 +205,7 @@ export type ApiKeyGroupByOutputType = {
   disabled: boolean
   deleted: boolean
   lastUsed: Date | null
-  creditsConsumed: number
+  creditsConsumed: runtime.Decimal
   _count: ApiKeyCountAggregateOutputType | null
   _avg: ApiKeyAvgAggregateOutputType | null
   _sum: ApiKeySumAggregateOutputType | null
@@ -239,7 +239,7 @@ export type ApiKeyWhereInput = {
   disabled?: Prisma.BoolFilter<"ApiKey"> | boolean
   deleted?: Prisma.BoolFilter<"ApiKey"> | boolean
   lastUsed?: Prisma.DateTimeNullableFilter<"ApiKey"> | Date | string | null
-  creditsConsumed?: Prisma.IntFilter<"ApiKey"> | number
+  creditsConsumed?: Prisma.DecimalFilter<"ApiKey"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   conversations?: Prisma.ConversationListRelationFilter
 }
@@ -268,7 +268,7 @@ export type ApiKeyWhereUniqueInput = Prisma.AtLeast<{
   disabled?: Prisma.BoolFilter<"ApiKey"> | boolean
   deleted?: Prisma.BoolFilter<"ApiKey"> | boolean
   lastUsed?: Prisma.DateTimeNullableFilter<"ApiKey"> | Date | string | null
-  creditsConsumed?: Prisma.IntFilter<"ApiKey"> | number
+  creditsConsumed?: Prisma.DecimalFilter<"ApiKey"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   conversations?: Prisma.ConversationListRelationFilter
 }, "id" | "apiKey">
@@ -300,7 +300,7 @@ export type ApiKeyScalarWhereWithAggregatesInput = {
   disabled?: Prisma.BoolWithAggregatesFilter<"ApiKey"> | boolean
   deleted?: Prisma.BoolWithAggregatesFilter<"ApiKey"> | boolean
   lastUsed?: Prisma.DateTimeNullableWithAggregatesFilter<"ApiKey"> | Date | string | null
-  creditsConsumed?: Prisma.IntWithAggregatesFilter<"ApiKey"> | number
+  creditsConsumed?: Prisma.DecimalWithAggregatesFilter<"ApiKey"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCreateInput = {
@@ -310,7 +310,7 @@ export type ApiKeyCreateInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   user: Prisma.UserCreateNestedOneWithoutApiKeysInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutApiKeyInput
 }
@@ -323,7 +323,7 @@ export type ApiKeyUncheckedCreateInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutApiKeyInput
 }
 
@@ -334,7 +334,7 @@ export type ApiKeyUpdateInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   user?: Prisma.UserUpdateOneRequiredWithoutApiKeysNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutApiKeyNestedInput
 }
@@ -347,7 +347,7 @@ export type ApiKeyUncheckedUpdateInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutApiKeyNestedInput
 }
 
@@ -359,7 +359,7 @@ export type ApiKeyCreateManyInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyUpdateManyMutationInput = {
@@ -369,7 +369,7 @@ export type ApiKeyUpdateManyMutationInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyUncheckedUpdateManyInput = {
@@ -380,7 +380,7 @@ export type ApiKeyUncheckedUpdateManyInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCountOrderByAggregateInput = {
@@ -451,12 +451,12 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCreateNestedOneWithoutConversationsInput = {
@@ -522,7 +522,7 @@ export type ApiKeyCreateWithoutConversationsInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   user: Prisma.UserCreateNestedOneWithoutApiKeysInput
 }
 
@@ -534,7 +534,7 @@ export type ApiKeyUncheckedCreateWithoutConversationsInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCreateOrConnectWithoutConversationsInput = {
@@ -560,7 +560,7 @@ export type ApiKeyUpdateWithoutConversationsInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   user?: Prisma.UserUpdateOneRequiredWithoutApiKeysNestedInput
 }
 
@@ -572,7 +572,7 @@ export type ApiKeyUncheckedUpdateWithoutConversationsInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCreateWithoutUserInput = {
@@ -582,7 +582,7 @@ export type ApiKeyCreateWithoutUserInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationCreateNestedManyWithoutApiKeyInput
 }
 
@@ -593,7 +593,7 @@ export type ApiKeyUncheckedCreateWithoutUserInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutApiKeyInput
 }
 
@@ -634,7 +634,7 @@ export type ApiKeyScalarWhereInput = {
   disabled?: Prisma.BoolFilter<"ApiKey"> | boolean
   deleted?: Prisma.BoolFilter<"ApiKey"> | boolean
   lastUsed?: Prisma.DateTimeNullableFilter<"ApiKey"> | Date | string | null
-  creditsConsumed?: Prisma.IntFilter<"ApiKey"> | number
+  creditsConsumed?: Prisma.DecimalFilter<"ApiKey"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyCreateManyUserInput = {
@@ -644,7 +644,7 @@ export type ApiKeyCreateManyUserInput = {
   disabled?: boolean
   deleted?: boolean
   lastUsed?: Date | string | null
-  creditsConsumed?: number
+  creditsConsumed?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type ApiKeyUpdateWithoutUserInput = {
@@ -654,7 +654,7 @@ export type ApiKeyUpdateWithoutUserInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUpdateManyWithoutApiKeyNestedInput
 }
 
@@ -665,7 +665,7 @@ export type ApiKeyUncheckedUpdateWithoutUserInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutApiKeyNestedInput
 }
 
@@ -676,7 +676,7 @@ export type ApiKeyUncheckedUpdateManyWithoutUserInput = {
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastUsed?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  creditsConsumed?: Prisma.IntFieldUpdateOperationsInput | number
+  creditsConsumed?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 
@@ -786,7 +786,7 @@ export type $ApiKeyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     disabled: boolean
     deleted: boolean
     lastUsed: Date | null
-    creditsConsumed: number
+    creditsConsumed: runtime.Decimal
   }, ExtArgs["result"]["apiKey"]>
   composites: {}
 }
@@ -1219,7 +1219,7 @@ export interface ApiKeyFieldRefs {
   readonly disabled: Prisma.FieldRef<"ApiKey", 'Boolean'>
   readonly deleted: Prisma.FieldRef<"ApiKey", 'Boolean'>
   readonly lastUsed: Prisma.FieldRef<"ApiKey", 'DateTime'>
-  readonly creditsConsumed: Prisma.FieldRef<"ApiKey", 'Int'>
+  readonly creditsConsumed: Prisma.FieldRef<"ApiKey", 'Decimal'>
 }
     
 

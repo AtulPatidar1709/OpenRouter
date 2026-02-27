@@ -3,7 +3,7 @@ model User {
   email              String                 @unique
   password           String
   isVerified         Boolean                @default(false)
-  credits            Int                    @default(1000)
+  credits            Decimal                @default(1000) @db.Decimal(10, 4)
   apiKeys            ApiKey[]
   onrampTransactions OnrampTransaction[]
   conversations      Conversation[]

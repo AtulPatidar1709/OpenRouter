@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { getAllModels, getModelProviders, getProviders } from "./model.controller.js";
+import {
+  getAllModels,
+  getModelProviders,
+  getProviders,
+} from "./model.controller.js";
 
 const route = Router();
 

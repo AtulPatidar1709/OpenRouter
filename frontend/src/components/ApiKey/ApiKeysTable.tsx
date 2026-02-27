@@ -6,67 +6,92 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical } from "lucide-react";
-
-const keys = [
-  {
-    name: "CodeGyan_Ecommerce",
-    key: "sk-or-v1-ba0...103",
-    expires: "Never",
-    lastUsed: "Never",
-    usage: "$0.000",
-    limit: "$1",
-  },
-  {
-    name: "Financial Advisor App",
-    key: "sk-or-v1-c88...b15",
-    expires: "Never",
-    lastUsed: "1 month ago",
-    usage: "$0.057",
-    limit: "$1",
-  },
-];
+import { Badge } from "@/components/ui/badge";
+import { Copy, MoreVertical } from "lucide-react";
+import { useApiKeys, useApiKeysQuery } from "@/hooks/apiKeys.hook";
+import { toast } from "react-toastify";
 
 export const ApiKeysTable = () => {
+  const { apiKeys, isApiKeysError, isApiKeysLoading } = useApiKeysQuery();
+  const { deleteApiKey, updateApiKey, isDeleteLoading, isUpdateLoading } =
+    useApiKeys();
+
+  if (isApiKeysLoading) {
+    return (
+      <div className="text-sm text-muted-foreground">Loading API keys...</div>
+    );
+  }
+
+  if (isApiKeysError) {
+    return (
+      <div className="text-sm text-destructive">Failed to load API keys</div>
+    );
+  }
+
+  const copyKey = (key: string) => {
+    navigator.clipboard.writeText(key);
+    toast.success("API key copied");
+  };
+
   return (
     <>
-      {/* Desktop */}
+      {/* ================= DESKTOP TABLE ================= */}
       <div className="hidden md:block border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-muted/50">
             <tr>
-              <th className="p-3 w-10">
+              <th className="p-4 w-10">
                 <Checkbox />
               </th>
-              <th className="p-3 text-left">Key</th>
-              <th className="p-3">Expires</th>
-              <th className="p-3">Last Used</th>
-              <th className="p-3">Usage</th>
-              <th className="p-3">Limit</th>
-              <th className="p-3 w-10" />
+              <th className="p-4 text-left">API Key</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Last Used</th>
+              <th className="p-4">Credits Used</th>
+              <th className="p-4 w-10" />
             </tr>
           </thead>
 
           <tbody>
-            {keys.map((k) => (
-              <tr key={k.name} className="border-t">
-                <td className="p-3">
+            {apiKeys.map((k) => (
+              <tr key={k.id} className="border-t hover:bg-muted/40 transition">
+                <td className="p-4">
                   <Checkbox />
                 </td>
-                <td className="p-3">
+
+                <td className="p-4">
                   <div className="font-medium">{k.name}</div>
-                  <div className="text-xs text-muted-foreground">{k.key}</div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-muted-foreground truncate max-w-[220px]">
+                      {k.apiKey}
+                    </span>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      onClick={() => copyKey(k.apiKey)}
+                    >
+                      <Copy className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
                 </td>
-                <td className="p-3">{k.expires}</td>
-                <td className="p-3">{k.lastUsed}</td>
-                <td className="p-3">{k.usage}</td>
-                <td className="p-3">
-                  {k.limit}
-                  <span className="ml-2 text-xs bg-muted px-2 py-0.5 rounded">
-                    TOTAL
-                  </span>
+
+                <td className="p-4">
+                  {k.disabled ? (
+                    <Badge variant="destructive">Disabled</Badge>
+                  ) : (
+                    <Badge variant="secondary">Active</Badge>
+                  )}
                 </td>
-                <td className="p-3">
+
+                <td className="p-4">
+                  {k.lastUsed
+                    ? new Date(k.lastUsed).toLocaleDateString()
+                    : "Never"}
+                </td>
+
+                <td className="p-4">{k.credisConsumed}</td>
+
+                <td className="p-4">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button size="icon" variant="ghost">
@@ -74,8 +99,19 @@ export const ApiKeysTable = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Rotate Key</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">
+                      <DropdownMenuItem
+                        disabled={isUpdateLoading}
+                        onClick={() =>
+                          updateApiKey({ id: k.id, disabled: !k.disabled })
+                        }
+                      >
+                        Disable / Enable
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        disabled={isDeleteLoading}
+                        onClick={() => deleteApiKey({ id: k.id })}
+                        className="text-destructive"
+                      >
                         Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -87,35 +123,73 @@ export const ApiKeysTable = () => {
         </table>
       </div>
 
-      {/* Mobile */}
+      {/* ================= MOBILE CARDS ================= */}
       <div className="md:hidden space-y-4">
-        {keys.map((k) => (
-          <div key={k.name} className="border rounded-lg p-4 space-y-2">
+        {apiKeys.map((k) => (
+          <div key={k.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-medium">{k.name}</p>
-                <p className="text-xs text-muted-foreground">{k.key}</p>
+                <p className="text-xs text-muted-foreground break-all">
+                  {k.apiKey}
+                </p>
               </div>
               <Checkbox />
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div>
-                <p className="text-muted-foreground">Expires</p>
-                <p>{k.expires}</p>
-              </div>
+            <div className="flex items-center gap-2">
+              {k.disabled ? (
+                <Badge variant="destructive">Disabled</Badge>
+              ) : (
+                <Badge variant="secondary">Active</Badge>
+              )}
+
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => copyKey(k.apiKey)}
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-sm">
               <div>
                 <p className="text-muted-foreground">Last Used</p>
-                <p>{k.lastUsed}</p>
+                <p>{k.lastUsed ? "Recently" : "Never"}</p>
               </div>
+
               <div>
-                <p className="text-muted-foreground">Usage</p>
-                <p>{k.usage}</p>
+                <p className="text-muted-foreground">Credits Used</p>
+                <p>{k.credisConsumed}</p>
               </div>
-              <div>
-                <p className="text-muted-foreground">Limit</p>
-                <p>{k.limit}</p>
-              </div>
+            </div>
+
+            <div className="flex justify-end">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="sm" variant="outline">
+                    Actions
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    disabled={isUpdateLoading}
+                    onClick={() =>
+                      updateApiKey({ id: k.id, disabled: !k.disabled })
+                    }
+                  >
+                    Disable / Enable
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    disabled={isDeleteLoading}
+                    onClick={() => deleteApiKey({ id: k.id })}
+                    className="text-destructive"
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         ))}

@@ -6,9 +6,10 @@ import { Copy } from "lucide-react";
 import { useModelsQuery } from "@/hooks/models.hook";
 
 export default function ModelList() {
-  const { models } = useModelsQuery();
+  const { models, isModelsLoading } = useModelsQuery();
   const [searchTerm, setSearchTerm] = useState("");
 
+  if (isModelsLoading) return <div>Loading...</div>;
   if (!models || models.length === 0) return <div>No Models Found</div>;
 
   const filteredModels = models.filter((model) =>

@@ -27,11 +27,11 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
-  credits: number | null
+  credits: runtime.Decimal | null
 }
 
 export type UserSumAggregateOutputType = {
-  credits: number | null
+  credits: runtime.Decimal | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -39,7 +39,7 @@ export type UserMinAggregateOutputType = {
   email: string | null
   password: string | null
   isVerified: boolean | null
-  credits: number | null
+  credits: runtime.Decimal | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -47,7 +47,7 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   password: string | null
   isVerified: boolean | null
-  credits: number | null
+  credits: runtime.Decimal | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -184,7 +184,7 @@ export type UserGroupByOutputType = {
   email: string
   password: string
   isVerified: boolean
-  credits: number
+  credits: runtime.Decimal
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -215,7 +215,7 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   isVerified?: Prisma.BoolFilter<"User"> | boolean
-  credits?: Prisma.IntFilter<"User"> | number
+  credits?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyListRelationFilter
   onrampTransactions?: Prisma.OnrampTransactionListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
@@ -244,7 +244,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
   isVerified?: Prisma.BoolFilter<"User"> | boolean
-  credits?: Prisma.IntFilter<"User"> | number
+  credits?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyListRelationFilter
   onrampTransactions?: Prisma.OnrampTransactionListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
@@ -273,7 +273,7 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  credits?: Prisma.IntWithAggregatesFilter<"User"> | number
+  credits?: Prisma.DecimalWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type UserCreateInput = {
@@ -281,7 +281,7 @@ export type UserCreateInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
@@ -294,7 +294,7 @@ export type UserUncheckedCreateInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
@@ -307,7 +307,7 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
@@ -320,7 +320,7 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
@@ -333,7 +333,7 @@ export type UserCreateManyInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -341,7 +341,7 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -349,7 +349,7 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type UserScalarRelationFilter = {
@@ -464,7 +464,7 @@ export type UserCreateWithoutApiKeysInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   onrampTransactions?: Prisma.OnrampTransactionCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -476,7 +476,7 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   onrampTransactions?: Prisma.OnrampTransactionUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -504,7 +504,7 @@ export type UserUpdateWithoutApiKeysInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   onrampTransactions?: Prisma.OnrampTransactionUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -516,7 +516,7 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   onrampTransactions?: Prisma.OnrampTransactionUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -528,7 +528,7 @@ export type UserCreateWithoutConversationsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -540,7 +540,7 @@ export type UserUncheckedCreateWithoutConversationsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -568,7 +568,7 @@ export type UserUpdateWithoutConversationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -580,7 +580,7 @@ export type UserUncheckedUpdateWithoutConversationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -592,7 +592,7 @@ export type UserCreateWithoutOnrampTransactionsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -604,7 +604,7 @@ export type UserUncheckedCreateWithoutOnrampTransactionsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -632,7 +632,7 @@ export type UserUpdateWithoutOnrampTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -644,7 +644,7 @@ export type UserUncheckedUpdateWithoutOnrampTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -656,7 +656,7 @@ export type UserCreateWithoutOtpVerificationsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
@@ -668,7 +668,7 @@ export type UserUncheckedCreateWithoutOtpVerificationsInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
@@ -696,7 +696,7 @@ export type UserUpdateWithoutOtpVerificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
@@ -708,7 +708,7 @@ export type UserUncheckedUpdateWithoutOtpVerificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
@@ -720,7 +720,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutUserInput
@@ -732,7 +732,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   email: string
   password: string
   isVerified?: boolean
-  credits?: number
+  credits?: runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutUserInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedCreateNestedManyWithoutUserInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutUserInput
@@ -760,7 +760,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutUserNestedInput
@@ -772,7 +772,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
+  credits?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutUserNestedInput
   onrampTransactions?: Prisma.OnrampTransactionUncheckedUpdateManyWithoutUserNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutUserNestedInput
@@ -910,7 +910,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     password: string
     isVerified: boolean
-    credits: number
+    credits: runtime.Decimal
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1343,7 +1343,7 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
-  readonly credits: Prisma.FieldRef<"User", 'Int'>
+  readonly credits: Prisma.FieldRef<"User", 'Decimal'>
 }
     
 

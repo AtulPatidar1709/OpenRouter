@@ -1,9 +1,9 @@
 model ModelProviderMapping {
   id              String            @id @default(uuid())
   modelId         String
-  providerId      String
-  inputTokenCost  Int
-  outputTokenCost Int
+  providerId      String 
+  inputTokenCost  Decimal        @db.Decimal(10, 4)
+  outputTokenCost Decimal        @db.Decimal(10, 4)
   model           Model          @relation(fields: [modelId], references: [id])
   provider        Provider       @relation(fields: [providerId], references: [id])
   conversations   Conversation[]

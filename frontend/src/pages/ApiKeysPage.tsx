@@ -7,17 +7,19 @@ export default function ApiKeysPage() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="p-4 md:p-6 max-w-7xl mx-auto space-y-6">
-      {/* Page Header (below your global header) */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <section className="max-w-6xl mx-auto px-4 md:px-6 py-10 space-y-8">
+      {/* Header Row */}
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">API Keys</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="text-2xl font-semibold tracking-tight">API Keys</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your keys to access all models
           </p>
         </div>
 
-        <Button onClick={() => setOpen(true)}>Create API Key</Button>
+        <Button onClick={() => setOpen((prev) => !prev)} className="shrink-0">
+          Create API Key
+        </Button>
       </div>
 
       {/* Table */}
