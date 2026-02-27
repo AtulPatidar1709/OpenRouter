@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "Victor Mono,Consolas, 'Courier New', monospace",
+  "editor.wordWrap": "on",
+  "editor.formatOnPaste": true,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "scss.format.enable": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

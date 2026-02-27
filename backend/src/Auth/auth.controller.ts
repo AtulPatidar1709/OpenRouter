@@ -1,9 +1,14 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
 import * as authService from "./auth.service.js";
-import { config } from '../config/config.js';
-import { AuthenticatedRequest } from '../types/AuthenticatedRequestTypes.js';
-import { loginSchema, OtpVerifySchema, registerSchema, sendOtpInput } from './auth.schema.js';
-import { getUserId } from './helper/helper.js';
+import { config } from "../config/config.js";
+import { AuthenticatedRequest } from "../types/AuthenticatedRequestTypes.js";
+import {
+  loginSchema,
+  OtpVerifySchema,
+  registerSchema,
+  sendOtpInput,
+} from "./auth.schema.js";
+import { getUserId } from "./helper/helper.js";
 
 export const registerController = async (
   req: Request,
@@ -27,20 +32,39 @@ export const loginController = async (
   try {
     const data = loginSchema.parse(req.body);
     const result = await authService.login(data);
-    res.cookie('accessToken', result.accessToken, {
+    res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
       signed: true,
-      secure: config.environment === 'production',
+      secure: config.environment === "production",
       maxAge: 15 * 60 * 1000,
     });
-    res.cookie('refreshToken', result.refreshToken, {
+    res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       signed: true,
-      secure: config.environment === 'production',
+      secure: config.environment === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.status(201).json({
       user: result.User,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const infoController = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userId = getUserId(req);
+
+    console.log("USER INFO ,", userId);
+    const result = await authService.getUserInfo(userId);
+    console.log("USER result ,", result);
+    res.status(201).json({
+      user: result,
     });
   } catch (error) {
     next(error);
@@ -56,7 +80,7 @@ export const verifyOtpController = async (
     const userId = getUserId(req);
     const resData = {
       ...req.body,
-      userId
+      userId,
     };
     const data = OtpVerifySchema.parse(resData);
     const result = await authService.verifyOtp(data);
@@ -88,13 +112,13 @@ export const refreshTokenController = async (
   try {
     const { refreshToken } = req.signedCookies;
     const { accessToken } = await authService.refreshToken(refreshToken);
-    res.cookie('accessToken', accessToken, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       signed: true,
-      secure: config.environment === 'production',
+      secure: config.environment === "production",
       maxAge: 15 * 60 * 1000,
     });
-    res.status(203).json({ message: 'Token Fetch Successfully' });
+    res.status(203).json({ message: "Token Fetch Successfully" });
   } catch (error) {
     next(error);
   }
@@ -108,9 +132,9 @@ export const logoutController = async (
   try {
     const { refreshToken } = _req.signedCookies;
     await authService.logOut(refreshToken);
-    res.clearCookie('refreshToken');
-    res.clearCookie('accessToken');
-    res.status(200).json({ message: 'Logged out' });
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+    res.status(200).json({ message: "Logged out" });
   } catch (error) {
     next(error);
   }

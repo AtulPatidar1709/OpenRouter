@@ -1,11 +1,35 @@
-import crypto from 'crypto';
-import bcrypt from 'bcrypt';
-import { prisma } from '../config/prisma.js';
-import { generateOtp } from '../utils/otp.js';
-import { AppError } from '../utils/AppError.js';
+import crypto from "crypto";
+import bcrypt from "bcrypt";
+import { prisma } from "../config/prisma.js";
+import { generateOtp } from "../utils/otp.js";
+import { AppError } from "../utils/AppError.js";
 import { sendEmail } from "./helper/nodeMailer.js";
-import { jwtPayloadType, loginInputTypes, OtpVerifyInput, RegisterInputTypes, sendOtpInputType } from './auth.schema.js';
-import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
+import {
+  jwtPayloadType,
+  loginInputTypes,
+  OtpVerifyInput,
+  RegisterInputTypes,
+  sendOtpInputType,
+} from "./auth.schema.js";
+import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
+
+export const getUserInfo = async (userId: string) => {
+  const userInfo = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!userInfo) throw new AppError("Please login First ", 404);
+
+  const User = {
+    id: userInfo.id,
+    email: userInfo.email,
+    isVerified: userInfo.isVerified,
+  };
+
+  return User;
+};
 
 export const register = async (data: RegisterInputTypes) => {
   const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -28,13 +52,13 @@ export const register = async (data: RegisterInputTypes) => {
   });
 
   if (!user.email) {
-    throw new AppError('User Name is not Valid.', 400);
+    throw new AppError("User Name is not Valid.", 400);
   }
 
   await sendEmail(user.email, otp);
 
   // send OTP (SMS / Email)
-  return { userId: user.id, message: 'OTP sent' };
+  return { userId: user.id, message: "OTP sent" };
 };
 
 export const login = async (data: loginInputTypes) => {
@@ -73,6 +97,7 @@ export const login = async (data: loginInputTypes) => {
   const User = {
     id: user.id,
     email: user.email,
+    isVerified: user.isVerified,
   };
 
   return { accessToken, refreshToken, User };
@@ -136,21 +161,21 @@ export const verifyOtp = async (data: OtpVerifyInput) => {
 };
 
 export const refreshToken = async (token: string) => {
-  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
   const stored = await prisma.refreshToken.findUnique({
     where: { token: hashedToken },
   });
 
   if (!stored || stored.revoked) {
-    throw new AppError('Invalid refresh token');
+    throw new AppError("Invalid refresh token");
   }
 
   const user = await prisma.user.findUnique({
     where: { id: stored.userId },
   });
 
-  if (!user) throw new AppError('User not found');
+  if (!user) throw new AppError("User not found");
 
   const jwtPayload: jwtPayloadType = {
     userId: user.id,
@@ -163,15 +188,15 @@ export const refreshToken = async (token: string) => {
 
 export const logOut = async (HashedToken: string) => {
   const hashedToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(HashedToken)
-    .digest('hex');
+    .digest("hex");
 
   const stored = await prisma.refreshToken.delete({
     where: { token: hashedToken },
   });
 
   if (!stored || stored.revoked) {
-    throw new AppError('Invalid refresh token');
+    throw new AppError("Invalid refresh token");
   }
 };

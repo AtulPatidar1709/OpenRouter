@@ -55,6 +55,7 @@ export const updateApiKey = async (
       userId: userIdd,
       disabled,
     } = updateApiKeysSchema.parse(data);
+    
     const result = await ApiKeyService.updateApiKeyDisabled(
       id,
       userIdd,
