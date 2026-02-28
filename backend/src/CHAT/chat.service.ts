@@ -1,4 +1,4 @@
-import { number } from "zod";
+import { once } from "events";
 import { prisma } from "../config/prisma.js";
 import { Prisma } from "../generated/prisma/client.js";
 import { AppError } from "../utils/AppError.js";
@@ -142,6 +142,14 @@ export abstract class ChatService {
   }: getChatInterface) {
     const [_companyName, providerModelName] = model.split("/");
 
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    res.on("close", () => {
+      console.log("Client disconnected — aborting LLM stream");
+      controller.abort();
+    });
+
     const apiKeyDb = await prisma.apiKey.findFirst({
       where: { apiKey, disabled: false, deleted: false },
       select: { user: true },
@@ -175,16 +183,19 @@ export abstract class ChatService {
     );
 
     const adapter = getProviderAdapter(provider.provider.name);
+
     const stream = adapter.streamChat({
       model: providerModelName,
       messages,
       maxOutputTokens: maxOutputToken,
+      signal,
     });
 
     // --- TOKEN TRACKING ---
     let inputTokens = estimateTokensFromText(
       messages.map((m) => m.content).join(" "),
     );
+
     let outputTokens = 0;
 
     let creditsRemaining = apiKeyDb.user.credits.toNumber();
@@ -204,7 +215,16 @@ export abstract class ChatService {
 
     // --- STREAM LOOP ---
     for await (const chunk of stream) {
-      if (chunk.delta) {
+      if ("error" in chunk) {
+        res.write(
+          `data: ${JSON.stringify({
+            choices: [{ delta: {}, finish_reason: "error" }],
+          })}\n\n`,
+        );
+        break;
+      }
+
+      if ("delta" in chunk) {
         const tokens = estimateTokensFromText(chunk.delta);
         outputTokens += tokens;
 
@@ -223,17 +243,21 @@ export abstract class ChatService {
           break;
         }
 
-        res.write(
+        const ok = res.write(
           `data: ${JSON.stringify({
             choices: [{ delta: { content: chunk.delta } }],
           })}\n\n`,
         );
+
+        if (!ok) {
+          await once(res, "drain");
+        }
       }
 
-      if (chunk.done) break;
+      if ("done" in chunk) break;
     }
 
-    // ✅ normal completion
+    // NORMAL COMPLETION
     if (!streamEnded) {
       res.write(
         `data: ${JSON.stringify({
@@ -244,7 +268,7 @@ export abstract class ChatService {
       res.end();
     }
 
-    // --- FINAL BILLING ---
+    // FINAL BILLING
     const creditsUsed = calculateCreditsUsed({
       inputTokens,
       outputTokens,

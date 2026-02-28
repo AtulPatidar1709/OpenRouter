@@ -7,7 +7,6 @@ export function getProviderAdapter(providerName: string) {
     case "OpenAI":
       return new OpenAIAdapter();
     case "Google API":
-    case "Google Vertex":
       return new GeminiAdapter();
     case "Claude API":
       return new ClaudeAdapter();
