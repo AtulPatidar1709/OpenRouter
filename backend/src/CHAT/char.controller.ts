@@ -6,6 +6,9 @@ export interface getChatInterface {
   model: string;
   apiKey: string;
   messages: Messages;
+  maxToken?: string;
+  stream?: boolean;
+  res?: any;
 }
 
 export const getChatResponse = async (
@@ -14,12 +17,28 @@ export const getChatResponse = async (
   next: NextFunction,
 ) => {
   try {
-    const { model, apiKey, messages }: getChatInterface = req.body;
+    const { model, apiKey, messages, maxToken, stream }: getChatInterface =
+      req.body;
+
+    if (stream === true) {
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
+
+      await ChatService.getChatResponseStream({
+        ...req.body,
+        res,
+      });
+
+      return;
+    }
 
     const result = await ChatService.getChatResponse({
       model,
       apiKey,
       messages,
+      maxToken,
+      stream,
     });
 
     res.status(200).json(result);

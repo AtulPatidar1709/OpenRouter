@@ -24,6 +24,8 @@ const _config = {
 
   // --- OpenAI Keys --- //
   openaiApiKey: process.env.OPENAI_API_KEY,
+  googleGeminiApiKey: process.env.GOOGLE_API_KEY,
+  anthropicApiKey: process.env.ANTHROPIC_API_KEY,
 
   // --- Auth / Security --- //
   googleClientId: process.env.GOOGLE_CLIENT_ID,
