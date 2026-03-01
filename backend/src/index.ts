@@ -38,4 +38,3 @@ app.use("/api/model", modelRoutes);
 app.use(globalErrorHandler);
 
 export { app };
-8;

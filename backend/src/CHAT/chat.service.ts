@@ -17,7 +17,6 @@ export abstract class ChatService {
     apiKey,
     messages,
     maxToken,
-    stream,
   }: getChatInterface) {
     const [_companyName, providerModelName] = model.split("/");
 
@@ -191,7 +190,7 @@ export abstract class ChatService {
       signal,
     });
 
-    // --- TOKEN TRACKING ---
+    // TOKEN TRACKING
     let inputTokens = estimateTokensFromText(
       messages.map((m) => m.content).join(" "),
     );
@@ -203,7 +202,7 @@ export abstract class ChatService {
     const inputCostPerToken = provider.inputTokenCost.toNumber() / 1000;
     const outputCostPerToken = provider.outputTokenCost.toNumber() / 1000;
 
-    // 🔒 charge input tokens upfront
+    // charge input tokens upfront
     const inputCost = inputTokens * inputCostPerToken;
     creditsRemaining -= inputCost;
 
@@ -213,7 +212,7 @@ export abstract class ChatService {
 
     let streamEnded = false;
 
-    // --- STREAM LOOP ---
+    // STREAM LOOP
     for await (const chunk of stream) {
       if ("error" in chunk) {
         res.write(
@@ -269,12 +268,14 @@ export abstract class ChatService {
     }
 
     // FINAL BILLING
-    const creditsUsed = calculateCreditsUsed({
+    let creditsUsed = calculateCreditsUsed({
       inputTokens,
       outputTokens,
       inputCostPer1K: provider.inputTokenCost.toNumber(),
       outputCostPer1K: provider.outputTokenCost.toNumber(),
     });
+
+    creditsUsed = creditsUsed - inputCost;
 
     await prisma.$transaction([
       prisma.user.update({
