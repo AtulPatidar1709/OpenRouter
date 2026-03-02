@@ -30,8 +30,6 @@ export const getChatResponse = async (
 
     const apiKey = apiKeyBody ?? apiKeyHeader;
 
-    console.log("Api Key", apiKey);
-
     if (!apiKey) throw new AppError("Invalid API Key.", 404);
 
     if (stream === true) {

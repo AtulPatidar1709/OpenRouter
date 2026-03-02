@@ -10,6 +10,7 @@ import { Gemini } from "./llms/Gemini.js";
 import { OpenAi } from "./llms/OpenAi.js";
 import { getProviderAdapter } from "./streaming/getProviderAdapter.js";
 import { estimateTokensFromText } from "./helper/tokenCounter.js";
+import { getAiDetails } from "./helper/getAiDetails.js";
 
 export abstract class ChatService {
   static async getChatResponse({
@@ -20,57 +21,12 @@ export abstract class ChatService {
   }: getChatInterface) {
     const [_companyName, providerModelName] = model.split("/");
 
-    const apiKeyDb = await prisma.apiKey.findFirst({
-      where: {
-        apiKey,
-        disabled: false,
-        deleted: false,
-      },
-      select: {
-        user: true,
-        apiKey: true,
-        id: true,
-      },
+    const { apiKeyDb, provider, maxOutputToken }: any = await getAiDetails({
+      model,
+      apiKey,
+      maxToken,
+      messages,
     });
-
-    if (!apiKeyDb) {
-      throw new AppError("Invalid api key", 403);
-    }
-
-    if (apiKeyDb.user.credits <= new Prisma.Decimal(0.0)) {
-      throw new AppError("You dont have enough credits in your db", 403);
-    }
-
-    const modelDb = await prisma.model.findFirst({
-      where: {
-        slug: model,
-      },
-    });
-
-    if (!modelDb) {
-      throw new AppError("This is an invalid model we dont support", 403);
-    }
-
-    const providers = await prisma.modelProviderMapping.findMany({
-      where: {
-        modelId: modelDb.id,
-      },
-      include: {
-        provider: true,
-      },
-    });
-
-    const provider = providers[Math.floor(Math.random() * providers.length)];
-
-    const maxTokenUserCanUse =
-      (apiKeyDb.user.credits.toNumber() / provider.outputTokenCost.toNumber()) *
-      1000;
-
-    const maxOutputToken = Math.floor(
-      Math.min(Number(maxToken ?? 1024), maxTokenUserCanUse),
-    );
-
-    console.log("Max Token We can use ", maxOutputToken);
 
     let response: LlmResponse | null = null;
     if (provider.provider.name === "Google API") {
@@ -92,8 +48,6 @@ export abstract class ChatService {
     if (!response) {
       throw new AppError("No provider found for this model", 403);
     }
-
-    console.log("Response after AI API CAll ,", response);
 
     const MIN_CREDITS_PER_REQUEST = 0.25;
 
@@ -147,41 +101,15 @@ export abstract class ChatService {
     const { signal } = controller;
 
     res.on("close", () => {
-      console.log("Client disconnected — aborting LLM stream");
       controller.abort();
     });
 
-    const apiKeyDb = await prisma.apiKey.findFirst({
-      where: { apiKey, disabled: false, deleted: false },
-      select: { user: true },
+    const { apiKeyDb, provider, maxOutputToken }: any = await getAiDetails({
+      model,
+      apiKey,
+      maxToken,
+      messages,
     });
-
-    if (!apiKeyDb) throw new AppError("Invalid api key", 403);
-
-    if (apiKeyDb.user.credits <= new Prisma.Decimal(0)) {
-      throw new AppError("You dont have enough credits", 403);
-    }
-
-    const modelDb = await prisma.model.findFirst({
-      where: { slug: model },
-    });
-
-    if (!modelDb) throw new AppError("Invalid model", 403);
-
-    const providers = await prisma.modelProviderMapping.findMany({
-      where: { modelId: modelDb.id },
-      include: { provider: true },
-    });
-
-    const provider = providers[Math.floor(Math.random() * providers.length)];
-
-    const maxTokenUserCanUse =
-      (apiKeyDb.user.credits.toNumber() / provider.outputTokenCost.toNumber()) *
-      1000;
-
-    const maxOutputToken = Math.floor(
-      Math.min(Number(maxToken ?? 1024), maxTokenUserCanUse),
-    );
 
     const adapter = getProviderAdapter(provider.provider.name);
 
