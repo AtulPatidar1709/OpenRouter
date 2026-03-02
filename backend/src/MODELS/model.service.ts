@@ -5,6 +5,12 @@ export abstract class ModelsService {
     const models = await prisma.model.findMany({
       include: {
         company: true,
+        modelProviderMappings: {
+          select: {
+            outputTokenCost: true,
+            inputTokenCost: true,
+          },
+        },
       },
     });
 

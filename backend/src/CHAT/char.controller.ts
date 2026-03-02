@@ -1,16 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ChatService } from "./chat.service.js";
-import { Messages } from "./llms/types.js";
 import { AppError } from "../utils/AppError.js";
-
-export interface getChatInterface {
-  model: string;
-  apiKey?: string;
-  messages: Messages;
-  maxToken?: string;
-  stream?: boolean;
-  res?: any;
-}
+import { getChatInterface } from "./chat.schema.js";
 
 export const getChatResponse = async (
   req: Request,
@@ -38,7 +29,7 @@ export const getChatResponse = async (
       res.setHeader("Connection", "keep-alive");
 
       await ChatService.getChatResponseStream({
-        ...req.body,
+        ...{ model, messages, maxToken, stream },
         apiKey,
         res,
       });

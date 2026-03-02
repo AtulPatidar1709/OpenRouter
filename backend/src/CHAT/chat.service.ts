@@ -1,8 +1,6 @@
 import { once } from "events";
 import { prisma } from "../config/prisma.js";
-import { Prisma } from "../generated/prisma/client.js";
 import { AppError } from "../utils/AppError.js";
-import { getChatInterface } from "./char.controller.js";
 import { calculateCreditsUsed } from "./helper.js";
 import { LlmResponse } from "./llms/Base.js";
 import { Claude } from "./llms/Claude.js";
@@ -11,8 +9,10 @@ import { OpenAi } from "./llms/OpenAi.js";
 import { getProviderAdapter } from "./streaming/getProviderAdapter.js";
 import { estimateTokensFromText } from "./helper/tokenCounter.js";
 import { getAiDetails } from "./helper/getAiDetails.js";
+import { getChatInterface } from "./chat.schema.js";
 
 export abstract class ChatService {
+  // NON-STREAMING
   static async getChatResponse({
     model,
     apiKey,
@@ -29,6 +29,7 @@ export abstract class ChatService {
     });
 
     let response: LlmResponse | null = null;
+
     if (provider.provider.name === "Google API") {
       response = await Gemini.chat(providerModelName, messages, maxOutputToken);
     }
@@ -49,45 +50,41 @@ export abstract class ChatService {
       throw new AppError("No provider found for this model", 403);
     }
 
-    const MIN_CREDITS_PER_REQUEST = 0.25;
-
-    const calculatedCredits = calculateCreditsUsed({
+    const creditsUsed = calculateCreditsUsed({
       inputTokens: response.inputTokensConsumed,
       outputTokens: response.outputTokensConsumed,
-      inputCostPer1K: provider.inputTokenCost.toNumber(),
-      outputCostPer1K: provider.outputTokenCost.toNumber(),
+      inputCostPer1K: provider.inputTokenCost,
+      outputCostPer1K: provider.outputTokenCost,
     });
 
-    const creditsUsed = Prisma.Decimal.max(
-      calculatedCredits,
-      new Prisma.Decimal(MIN_CREDITS_PER_REQUEST),
-    );
-
-    const res = await prisma.user.update({
-      where: {
-        id: apiKeyDb.user.id,
-      },
-      data: {
-        credits: {
-          decrement: creditsUsed,
+    await prisma.$transaction(async (tx) => {
+      // 🔒 Atomic safe deduction
+      const updatedUser = await tx.user.updateMany({
+        where: {
+          id: apiKeyDb.user.id,
+          credits: { gte: creditsUsed },
         },
-      },
-    });
-
-    const res2 = await prisma.apiKey.update({
-      where: {
-        apiKey: apiKeyDb.apiKey,
-      },
-      data: {
-        creditsConsumed: {
-          increment: creditsUsed,
+        data: {
+          credits: { decrement: creditsUsed },
         },
-      },
+      });
+
+      if (updatedUser.count === 0) {
+        throw new AppError("Insufficient balance", 403);
+      }
+
+      await tx.apiKey.update({
+        where: { apiKey: apiKeyDb.apiKey },
+        data: {
+          creditsConsumed: { increment: creditsUsed },
+        },
+      });
     });
 
     return response;
   }
 
+  // STREAMING
   static async getChatResponseStream({
     model,
     apiKey,
@@ -120,29 +117,13 @@ export abstract class ChatService {
       signal,
     });
 
-    // TOKEN TRACKING
-    let inputTokens = estimateTokensFromText(
+    const inputTokens = estimateTokensFromText(
       messages.map((m) => m.content).join(" "),
     );
 
     let outputTokens = 0;
-
-    let creditsRemaining = apiKeyDb.user.credits.toNumber();
-
-    const inputCostPerToken = provider.inputTokenCost.toNumber() / 1000;
-    const outputCostPerToken = provider.outputTokenCost.toNumber() / 1000;
-
-    // charge input tokens upfront
-    const inputCost = inputTokens * inputCostPerToken;
-    creditsRemaining -= inputCost;
-
-    if (creditsRemaining <= 0) {
-      throw new AppError("Not enough credits for input tokens", 402);
-    }
-
     let streamEnded = false;
 
-    // STREAM LOOP
     for await (const chunk of stream) {
       if ("error" in chunk) {
         res.write(
@@ -157,13 +138,10 @@ export abstract class ChatService {
         const tokens = estimateTokensFromText(chunk.delta);
         outputTokens += tokens;
 
-        const cost = tokens * outputCostPerToken;
-        creditsRemaining -= cost;
-
-        if (creditsRemaining <= 0) {
+        if (outputTokens >= maxOutputToken) {
           res.write(
             `data: ${JSON.stringify({
-              choices: [{ delta: {}, finish_reason: "credits" }],
+              choices: [{ delta: {}, finish_reason: "length" }],
             })}\n\n`,
           );
           res.write("data: [DONE]\n\n");
@@ -186,7 +164,6 @@ export abstract class ChatService {
       if ("done" in chunk) break;
     }
 
-    // NORMAL COMPLETION
     if (!streamEnded) {
       res.write(
         `data: ${JSON.stringify({
@@ -197,25 +174,35 @@ export abstract class ChatService {
       res.end();
     }
 
-    // FINAL BILLING
-    let creditsUsed = calculateCreditsUsed({
+    const creditsUsed = calculateCreditsUsed({
       inputTokens,
       outputTokens,
-      inputCostPer1K: provider.inputTokenCost.toNumber(),
-      outputCostPer1K: provider.outputTokenCost.toNumber(),
+      inputCostPer1K: provider.inputTokenCost,
+      outputCostPer1K: provider.outputTokenCost,
     });
 
-    creditsUsed = creditsUsed - inputCost;
+    await prisma.$transaction(async (tx) => {
+      // 🔒 Atomic deduction
+      const updatedUser = await tx.user.updateMany({
+        where: {
+          id: apiKeyDb.user.id,
+          credits: { gte: creditsUsed },
+        },
+        data: {
+          credits: { decrement: creditsUsed },
+        },
+      });
 
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: apiKeyDb.user.id },
-        data: { credits: { decrement: creditsUsed } },
-      }),
-      prisma.apiKey.update({
-        where: { apiKey },
-        data: { creditsConsumed: { increment: creditsUsed } },
-      }),
-    ]);
+      if (updatedUser.count === 0) {
+        throw new AppError("Insufficient balance", 403);
+      }
+
+      await tx.apiKey.update({
+        where: { apiKey: apiKeyDb.apiKey },
+        data: {
+          creditsConsumed: { increment: creditsUsed },
+        },
+      });
+    });
   }
 }

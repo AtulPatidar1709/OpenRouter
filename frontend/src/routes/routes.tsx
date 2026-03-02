@@ -12,6 +12,7 @@ import ApiKeysPage from "@/pages/ApiKeysPage.js";
 const LogIn = lazy(() => import("@/pages/LogIn.js"));
 const SignUp = lazy(() => import("@/pages/SignUp.js"));
 const VerifyOtp = lazy(() => import("@/pages/VerifyOtp.js"));
+const CreditsPage = lazy(() => import("@/pages/CreditsPage.js"));
 
 const NotFoundPage = lazy(() => import("@/components/NotFoundPage.js"));
 
@@ -99,6 +100,10 @@ export const routerPaths = createBrowserRouter([
           {
             path: "api-keys",
             element: <ApiKeysPage />,
+          },
+          {
+            path: "credits",
+            element: <CreditsPage />,
           },
         ],
       },

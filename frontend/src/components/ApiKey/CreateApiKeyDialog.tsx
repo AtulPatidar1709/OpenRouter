@@ -7,16 +7,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useState } from "react";
 import { useApiKeys } from "@/hooks/apiKeys.hook";
-import { useModelsQuery } from "@/hooks/models.hook";
 
 interface Props {
   open: boolean;
@@ -26,10 +18,6 @@ interface Props {
 export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
   const [name, setName] = useState("");
   const { createApiKey, isCreateLoading } = useApiKeys();
-  const { models, isModelsLoading } = useModelsQuery();
-
-  if (isModelsLoading) return <div>Loading...</div>;
-  if (!models) return <div>Models not Found.</div>;
 
   const handleSubmit = () => {
     onOpenChange(!open);
@@ -45,28 +33,14 @@ export const CreateApiKeyDialog = ({ open, onOpenChange }: Props) => {
 
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium">API Key Name</label>
+            <label className="flex pb-1 text-sm font-medium">
+              API Key Name
+            </label>
             <Input
               placeholder="e.g. Ecommerce Backend"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium">Model Access</label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a model" />
-              </SelectTrigger>
-              <SelectContent>
-                {models.map((model) => (
-                  <SelectItem key={model.id} value={model.slug}>
-                    {model.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
         </div>
 

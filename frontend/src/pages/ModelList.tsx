@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { useModelsQuery } from "@/hooks/models.hook";
+import { toast } from "react-toastify";
 
 export default function ModelList() {
   const { models, isModelsLoading } = useModelsQuery();
@@ -47,6 +48,7 @@ export default function ModelList() {
                   size="icon"
                   onClick={() => {
                     navigator.clipboard.writeText(model.slug);
+                    toast.success("Copied Successfully");
                   }}
                   aria-label="Copy Model ID"
                   className="h-6 w-6 p-0"
@@ -54,18 +56,27 @@ export default function ModelList() {
                   <Copy className="h-4 w-4" />
                 </Button>
               </h2>
-              <p className="text-muted-foreground mt-1 max-w-3xl">
-                {model.slug}
-              </p>
+              <div className="mt-2 flex flex-col  sm:flex-row justify-between gap-4 text-xs text-gray-500">
+                <p className="text-muted-foreground mt-1 max-w-3xl">
+                  {model.slug}
+                </p>
+                <div className="flex gap-3 font-semibold">
+                  <span>
+                    {model.modelProviderMappings[0].inputTokenCost}/1k Input
+                    Tokens
+                  </span>
+                  <span>
+                    {model.modelProviderMappings[0].outputTokenCost}/1K Output
+                    Tokens
+                  </span>
+                </div>
+              </div>
 
               <div className="mt-2 flex flex-wrap gap-4 text-xs text-gray-500">
                 <span>
                   by <span className="font-medium">{model.company.name}</span>
                 </span>
                 <span>{model.company.website}</span>
-                {/* <span>{model.context} context</span>
-                <span>{model.inputPrice} input tokens</span>
-                <span>{model.outputPrice} output tokens</span> */}
                 <span className="ml-auto text-sm font-semibold text-gray-400">
                   {model.company.name}
                 </span>

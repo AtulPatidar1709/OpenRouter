@@ -9,6 +9,12 @@ export const getModelsResponseSchema = z.object({
     name: z.string(),
     website: z.string(),
   }),
+  modelProviderMappings: z
+    .object({
+      outputTokenCost: z.string(),
+      inputTokenCost: z.string(),
+    })
+    .array(),
 });
 
 export const getProvidersResponseSchema = z.object({

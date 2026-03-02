@@ -24,6 +24,11 @@ export default function Navbar() {
               <Link to={"/signup"}>Sign Up</Link>
             </Button>
           )}
+          {user && (
+            <Link to={"/credits"} className="text-sm text-muted-foreground">
+              Credits
+            </Link>
+          )}
         </div>
       </div>
     </header>

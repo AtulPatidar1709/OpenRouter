@@ -45,14 +45,13 @@ export const ApiKeysTable = () => {
               </th>
               <th className="p-4 text-left">API Key</th>
               <th className="p-4">Status</th>
-              <th className="p-4">Last Used</th>
               <th className="p-4">Credits Used</th>
               <th className="p-4 w-10" />
             </tr>
           </thead>
 
           <tbody>
-            {apiKeys.map((k) => (
+            {apiKeys.map((k: any) => (
               <tr key={k.id} className="border-t hover:bg-muted/40 transition">
                 <td className="p-4">
                   <Checkbox />
@@ -81,12 +80,6 @@ export const ApiKeysTable = () => {
                   ) : (
                     <Badge variant="secondary">Active</Badge>
                   )}
-                </td>
-
-                <td className="p-4">
-                  {k.lastUsed
-                    ? new Date(k.lastUsed).toLocaleDateString()
-                    : "Never"}
                 </td>
 
                 <td className="p-4">{k.credisConsumed}</td>
@@ -125,7 +118,7 @@ export const ApiKeysTable = () => {
 
       {/* ================= MOBILE CARDS ================= */}
       <div className="md:hidden space-y-4">
-        {apiKeys.map((k) => (
+        {apiKeys.map((k: any) => (
           <div key={k.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex justify-between items-start">
               <div>

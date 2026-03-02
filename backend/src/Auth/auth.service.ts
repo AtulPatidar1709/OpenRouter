@@ -26,7 +26,10 @@ export const getUserInfo = async (userId: string) => {
     id: userInfo.id,
     email: userInfo.email,
     isVerified: userInfo.isVerified,
+    credits: userInfo.credits,
   };
+
+  console.log("User Info ,", User);
 
   return User;
 };
