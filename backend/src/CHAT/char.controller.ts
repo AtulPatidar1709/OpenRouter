@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { ChatService } from "./chat.service.js";
 import { Messages } from "./llms/types.js";
+import { AppError } from "../utils/AppError.js";
 
 export interface getChatInterface {
   model: string;
-  apiKey: string;
+  apiKey?: string;
   messages: Messages;
   maxToken?: string;
   stream?: boolean;
@@ -17,8 +18,21 @@ export const getChatResponse = async (
   next: NextFunction,
 ) => {
   try {
-    const { model, apiKey, messages, maxToken, stream }: getChatInterface =
-      req.body;
+    const auth = req.headers.authorization;
+
+    const apiKeyHeader = auth?.startsWith("Bearer ")
+      ? auth.slice(7)
+      : undefined;
+
+    const { model, messages, maxToken, stream }: getChatInterface = req.body;
+
+    const apiKeyBody = req.body.apiKey as string;
+
+    const apiKey = apiKeyBody ?? apiKeyHeader;
+
+    console.log("Api Key", apiKey);
+
+    if (!apiKey) throw new AppError("Invalid API Key.", 404);
 
     if (stream === true) {
       res.setHeader("Content-Type", "text/event-stream");
@@ -27,6 +41,7 @@ export const getChatResponse = async (
 
       await ChatService.getChatResponseStream({
         ...req.body,
+        apiKey,
         res,
       });
 

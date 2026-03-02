@@ -28,6 +28,8 @@ export abstract class ChatService {
       },
       select: {
         user: true,
+        apiKey: true,
+        id: true,
       },
     });
 
@@ -120,7 +122,7 @@ export abstract class ChatService {
 
     const res2 = await prisma.apiKey.update({
       where: {
-        apiKey: apiKey,
+        apiKey: apiKeyDb.apiKey,
       },
       data: {
         creditsConsumed: {

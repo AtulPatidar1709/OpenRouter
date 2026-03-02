@@ -3,6 +3,6 @@ import { getChatResponse } from "./char.controller.js";
 
 const route = Router();
 
-route.get("/completions", getChatResponse);
+route.post("/completions", getChatResponse);
 
 export default route;
