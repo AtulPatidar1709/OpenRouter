@@ -4,9 +4,13 @@ model User {
   password           String
   isVerified         Boolean                @default(false)
   credits            Int                    @default(1000)
+
+  // Credits
+
   apiKeys            ApiKey[]
-  onrampTransactions OnrampTransaction[]
   conversations      Conversation[]
   refreshTokens      RefreshToken[]
   otpVerifications   OTPVerification[]
+
+  walletTransactions WalletTransaction[]
 }

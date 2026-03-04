@@ -1,0 +1,25 @@
+model WalletTransaction {
+  id        String @id @default(uuid())
+  userId    String
+
+  type      TransactionType
+  status    TransactionStatus
+
+  amount    Int       // +credits or -credits
+  balanceAfter Int    // snapshot after transaction (optional but recommended)
+
+  provider          PaymentProvider?
+  providerOrderId   String?
+  providerPaymentId String?
+  providerSignature String?
+
+  metadata Json?
+
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+}

@@ -390,7 +390,7 @@ export const ModelName = {
   Model: 'Model',
   ModelProviderMapping: 'ModelProviderMapping',
   Provider: 'Provider',
-  OnrampTransaction: 'OnrampTransaction',
+  WalletTransaction: 'WalletTransaction',
   OTPVerification: 'OTPVerification',
   RefreshToken: 'RefreshToken',
   User: 'User'
@@ -409,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "apiKey" | "conversation" | "company" | "model" | "modelProviderMapping" | "provider" | "onrampTransaction" | "oTPVerification" | "refreshToken" | "user"
+    modelProps: "apiKey" | "conversation" | "company" | "model" | "modelProviderMapping" | "provider" | "walletTransaction" | "oTPVerification" | "refreshToken" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -857,77 +857,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    OnrampTransaction: {
-      payload: Prisma.$OnrampTransactionPayload<ExtArgs>
-      fields: Prisma.OnrampTransactionFieldRefs
+    WalletTransaction: {
+      payload: Prisma.$WalletTransactionPayload<ExtArgs>
+      fields: Prisma.WalletTransactionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.OnrampTransactionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload> | null
+          args: Prisma.WalletTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.OnrampTransactionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         findFirst: {
-          args: Prisma.OnrampTransactionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload> | null
+          args: Prisma.WalletTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.OnrampTransactionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         findMany: {
-          args: Prisma.OnrampTransactionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>[]
+          args: Prisma.WalletTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
         }
         create: {
-          args: Prisma.OnrampTransactionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         createMany: {
-          args: Prisma.OnrampTransactionCreateManyArgs<ExtArgs>
+          args: Prisma.WalletTransactionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.OnrampTransactionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>[]
+          args: Prisma.WalletTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
         }
         delete: {
-          args: Prisma.OnrampTransactionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         update: {
-          args: Prisma.OnrampTransactionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         deleteMany: {
-          args: Prisma.OnrampTransactionDeleteManyArgs<ExtArgs>
+          args: Prisma.WalletTransactionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.OnrampTransactionUpdateManyArgs<ExtArgs>
+          args: Prisma.WalletTransactionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.OnrampTransactionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>[]
+          args: Prisma.WalletTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
         }
         upsert: {
-          args: Prisma.OnrampTransactionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$OnrampTransactionPayload>
+          args: Prisma.WalletTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
         }
         aggregate: {
-          args: Prisma.OnrampTransactionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateOnrampTransaction>
+          args: Prisma.WalletTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWalletTransaction>
         }
         groupBy: {
-          args: Prisma.OnrampTransactionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.OnrampTransactionGroupByOutputType>[]
+          args: Prisma.WalletTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.OnrampTransactionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.OnrampTransactionCountAggregateOutputType> | number
+          args: Prisma.WalletTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionCountAggregateOutputType> | number
         }
       }
     }
@@ -1259,14 +1259,22 @@ export const ProviderScalarFieldEnum = {
 export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
 
 
-export const OnrampTransactionScalarFieldEnum = {
+export const WalletTransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  type: 'type',
+  status: 'status',
   amount: 'amount',
-  status: 'status'
+  balanceAfter: 'balanceAfter',
+  provider: 'provider',
+  providerOrderId: 'providerOrderId',
+  providerPaymentId: 'providerPaymentId',
+  providerSignature: 'providerSignature',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
 } as const
 
-export type OnrampTransactionScalarFieldEnum = (typeof OnrampTransactionScalarFieldEnum)[keyof typeof OnrampTransactionScalarFieldEnum]
+export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
 
 
 export const OTPVerificationScalarFieldEnum = {
@@ -1311,6 +1319,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -1325,6 +1341,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1393,6 +1418,62 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TransactionType'
+ */
+export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
+    
+
+
+/**
+ * Reference to a field of type 'TransactionType[]'
+ */
+export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TransactionStatus'
+ */
+export type EnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'TransactionStatus[]'
+ */
+export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentProvider'
+ */
+export type EnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentProvider[]'
+ */
+export type ListEnumPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentProvider[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1510,7 +1591,7 @@ export type GlobalOmitConfig = {
   model?: Prisma.ModelOmit
   modelProviderMapping?: Prisma.ModelProviderMappingOmit
   provider?: Prisma.ProviderOmit
-  onrampTransaction?: Prisma.OnrampTransactionOmit
+  walletTransaction?: Prisma.WalletTransactionOmit
   oTPVerification?: Prisma.OTPVerificationOmit
   refreshToken?: Prisma.RefreshTokenOmit
   user?: Prisma.UserOmit

@@ -70,10 +70,10 @@ export type ModelProviderMapping = Prisma.ModelProviderMappingModel
  */
 export type Provider = Prisma.ProviderModel
 /**
- * Model OnrampTransaction
+ * Model WalletTransaction
  * 
  */
-export type OnrampTransaction = Prisma.OnrampTransactionModel
+export type WalletTransaction = Prisma.WalletTransactionModel
 /**
  * Model OTPVerification
  * 

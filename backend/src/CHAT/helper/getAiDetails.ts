@@ -1,7 +1,7 @@
 import { prisma } from "../../config/prisma.js";
 import { Prisma } from "../../generated/prisma/client.js";
 import { AppError } from "../../utils/AppError.js";
-import { getChatInterface } from "../char.controller.js";
+import { getChatInterface } from "../chat.schema.js";
 import { estimateTokensFromText } from "./tokenCounter.js";
 
 export async function getAiDetails({
@@ -47,7 +47,7 @@ export async function getAiDetails({
   const provider = providers[Math.floor(Math.random() * providers.length)];
 
   const estimatedInputTokens = estimateTokensFromText(
-    messages.map((m) => m.content).join(" "),
+    messages.map((m: any) => m.content).join(" "),
   );
 
   // ✅ Calculate input cost in RUPEES (Decimal)

@@ -21,12 +21,13 @@ export abstract class ChatService {
   }: getChatInterface) {
     const [_companyName, providerModelName] = model.split("/");
 
-    const { apiKeyDb, provider, maxOutputToken }: any = await getAiDetails({
-      model,
-      apiKey,
-      maxToken,
-      messages,
-    });
+    const { apiKeyDb, provider, maxOutputToken, modelDb }: any =
+      await getAiDetails({
+        model,
+        apiKey,
+        maxToken,
+        messages,
+      });
 
     let response: LlmResponse | null = null;
 
@@ -59,6 +60,32 @@ export abstract class ChatService {
 
     await prisma.$transaction(async (tx) => {
       // 🔒 Atomic safe deduction
+
+      const user = await tx.user.findUnique({
+        where: { id: apiKeyDb.user.id },
+        select: { credits: true },
+      });
+
+      if (!user || user.credits < creditsUsed) {
+        throw new Error("Insufficient credits");
+      }
+
+      const newBalance = user.credits - creditsUsed;
+
+      await tx.walletTransaction.create({
+        data: {
+          userId: apiKeyDb.user.id,
+          type: "USAGE_DEBIT",
+          status: "SUCCESS",
+          amount: -creditsUsed,
+          balanceAfter: newBalance,
+          metadata: {
+            model: modelDb.name,
+            tokens: creditsUsed,
+          },
+        },
+      });
+
       const updatedUser = await tx.user.updateMany({
         where: {
           id: apiKeyDb.user.id,
@@ -101,12 +128,13 @@ export abstract class ChatService {
       controller.abort();
     });
 
-    const { apiKeyDb, provider, maxOutputToken }: any = await getAiDetails({
-      model,
-      apiKey,
-      maxToken,
-      messages,
-    });
+    const { apiKeyDb, provider, maxOutputToken, modelDb }: any =
+      await getAiDetails({
+        model,
+        apiKey,
+        maxToken,
+        messages,
+      });
 
     const adapter = getProviderAdapter(provider.provider.name);
 
@@ -183,6 +211,32 @@ export abstract class ChatService {
 
     await prisma.$transaction(async (tx) => {
       // 🔒 Atomic deduction
+
+      const user = await tx.user.findUnique({
+        where: { id: apiKeyDb.user.id },
+        select: { credits: true },
+      });
+
+      if (!user || user.credits < creditsUsed) {
+        throw new Error("Insufficient credits");
+      }
+
+      const newBalance = user.credits - creditsUsed;
+
+      await tx.walletTransaction.create({
+        data: {
+          userId: apiKeyDb.user.id,
+          type: "USAGE_DEBIT",
+          status: "SUCCESS",
+          amount: -creditsUsed,
+          balanceAfter: newBalance,
+          metadata: {
+            model: modelDb.name,
+            tokens: creditsUsed,
+          },
+        },
+      });
+
       const updatedUser = await tx.user.updateMany({
         where: {
           id: apiKeyDb.user.id,

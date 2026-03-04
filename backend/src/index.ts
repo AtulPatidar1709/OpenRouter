@@ -7,6 +7,7 @@ import authRoutes from "./Auth/auth.routes.js";
 import chatRoutes from "./CHAT/chat.routes.js";
 import apiRoutes from "./APIKEYS/apikeys.routes.js";
 import modelRoutes from "./MODELS/model.routes.js";
+import walletRoutes from "./WALLET/wallet.routes.js";
 
 import { globalErrorHandler } from "./middleware/globalErrorHandler.js";
 
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/apikey", apiRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/model", modelRoutes);
+app.use("/api/wallet", walletRoutes);
 
 app.use(globalErrorHandler);
 

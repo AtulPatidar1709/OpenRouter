@@ -1,0 +1,19 @@
+enum TransactionType {
+  CREDIT_TOPUP   // user adds money
+  USAGE_DEBIT    // model usage
+  REFUND
+  BONUS
+  ADJUSTMENT
+}
+
+enum TransactionStatus {
+  CREATED
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum PaymentProvider {
+  RAZORPAY
+  STRIPE
+}

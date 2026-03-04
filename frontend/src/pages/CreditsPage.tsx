@@ -2,13 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useUserQuery } from "@/hooks/auth.hooks";
+import { useWalletQuery } from "@/hooks/wallet.hook";
 
 const CreditsPage = () => {
   const { user, isUserLoading, isUserError } = useUserQuery();
 
-  if (isUserLoading) return <div>Loading...</div>;
+  const { walletTransaction, walletisError, walletisLoading } =
+    useWalletQuery();
 
-  if (isUserError) return <div>Error in Fetching User.</div>;
+  console.log("walletTransaction ", walletTransaction);
+
+  if (isUserLoading || walletisLoading) return <div>Loading...</div>;
+
+  if (isUserError || walletisError) return <div>Error in Fetching User.</div>;
 
   const credits = user.credits / 100;
 
@@ -66,11 +72,31 @@ const CreditsPage = () => {
           <CardHeader>
             <CardTitle>Recent Transactions</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="gap-2 max-h-60 flex flex-col overflow-scroll">
             <Separator className="mb-4" />
-            <p className="text-sm text-muted-foreground text-center">
-              No results
-            </p>
+            {!walletTransaction && (
+              <p className="text-sm text-muted-foreground text-center">
+                No results
+              </p>
+            )}
+            {walletTransaction?.map((tran: any) => {
+              return (
+                <div className="flex p-3 font-semibold bg-gray-200 flex-col sm:flex-row rounded-xl justify-between">
+                  <h1>Balance - {tran.balanceAfter / 100}</h1>
+                  <h1>{tran.metadata.model}</h1>
+                  <h1>Tokens {tran.metadata.tokens}</h1>
+                  <h1
+                    className={
+                      tran.status === "SUCCESS"
+                        ? "text-green-400 font-bold"
+                        : "text-red-400 font-bold"
+                    }
+                  >
+                    {tran.status}
+                  </h1>
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
       </div>

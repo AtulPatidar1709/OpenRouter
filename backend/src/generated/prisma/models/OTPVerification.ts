@@ -317,10 +317,6 @@ export type OTPVerificationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type OTPVerificationCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.OTPVerificationCreateWithoutUserInput, Prisma.OTPVerificationUncheckedCreateWithoutUserInput> | Prisma.OTPVerificationCreateWithoutUserInput[] | Prisma.OTPVerificationUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.OTPVerificationCreateOrConnectWithoutUserInput | Prisma.OTPVerificationCreateOrConnectWithoutUserInput[]

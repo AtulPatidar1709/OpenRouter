@@ -57,7 +57,7 @@ export const ModelName = {
   Model: 'Model',
   ModelProviderMapping: 'ModelProviderMapping',
   Provider: 'Provider',
-  OnrampTransaction: 'OnrampTransaction',
+  WalletTransaction: 'WalletTransaction',
   OTPVerification: 'OTPVerification',
   RefreshToken: 'RefreshToken',
   User: 'User'
@@ -146,14 +146,22 @@ export const ProviderScalarFieldEnum = {
 export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
 
 
-export const OnrampTransactionScalarFieldEnum = {
+export const WalletTransactionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  type: 'type',
+  status: 'status',
   amount: 'amount',
-  status: 'status'
+  balanceAfter: 'balanceAfter',
+  provider: 'provider',
+  providerOrderId: 'providerOrderId',
+  providerPaymentId: 'providerPaymentId',
+  providerSignature: 'providerSignature',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
 } as const
 
-export type OnrampTransactionScalarFieldEnum = (typeof OnrampTransactionScalarFieldEnum)[keyof typeof OnrampTransactionScalarFieldEnum]
+export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
 
 
 export const OTPVerificationScalarFieldEnum = {
@@ -198,6 +206,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -212,4 +228,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
