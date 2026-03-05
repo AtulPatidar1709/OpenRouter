@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { getWalletTransactionController } from "./wallet.controller.js";
+import {
+  getWalletTransactionController,
+  initiatePaymentController,
+  verifyPaymentController,
+} from "./wallet.controller.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 
-const route = Router();
+const router = Router();
 
-route.get("/", requireAuth, getWalletTransactionController);
+router.get("/", requireAuth, getWalletTransactionController);
+router.post("/initiate-payment", requireAuth, initiatePaymentController);
+router.post("/verify-payment", requireAuth, verifyPaymentController);
 
-export default route;
+export default router;

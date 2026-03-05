@@ -6,7 +6,7 @@ model WalletTransaction {
   status    TransactionStatus
 
   amount    Int       // +credits or -credits
-  balanceAfter Int    // snapshot after transaction (optional but recommended)
+  balanceAfter Int   // snapshot after transaction (optional but recommended)
 
   provider          PaymentProvider?
   providerOrderId   String?

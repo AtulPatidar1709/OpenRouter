@@ -1,8 +1,10 @@
-import { Button } from "@/components/ui/button";
+import AddCreditsDialog from "@/components/AddCreditsDialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useUserQuery } from "@/hooks/auth.hooks";
 import { useWalletQuery } from "@/hooks/wallet.hook";
+import { addRazorPayQueryScript } from "@/lib/addRazorPayScript";
+import { useEffect } from "react";
 
 const CreditsPage = () => {
   const { user, isUserLoading, isUserError } = useUserQuery();
@@ -10,7 +12,9 @@ const CreditsPage = () => {
   const { walletTransaction, walletisError, walletisLoading } =
     useWalletQuery();
 
-  console.log("walletTransaction ", walletTransaction);
+  useEffect(() => {
+    addRazorPayQueryScript();
+  }, []);
 
   if (isUserLoading || walletisLoading) return <div>Loading...</div>;
 
@@ -46,7 +50,7 @@ const CreditsPage = () => {
               <CardTitle>Buy Credits</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button className="w-full">Add Credits</Button>
+              <AddCreditsDialog />
 
               <div className="text-sm text-muted-foreground">
                 <a
@@ -72,7 +76,7 @@ const CreditsPage = () => {
           <CardHeader>
             <CardTitle>Recent Transactions</CardTitle>
           </CardHeader>
-          <CardContent className="gap-2 max-h-60 flex flex-col overflow-scroll">
+          <CardContent className="gap-2 max-h-60 flex flex-col overflow-y-scroll">
             <Separator className="mb-4" />
             {!walletTransaction && (
               <p className="text-sm text-muted-foreground text-center">
@@ -80,11 +84,20 @@ const CreditsPage = () => {
               </p>
             )}
             {walletTransaction?.map((tran: any) => {
+              if (tran.status === "CREATED") return;
               return (
                 <div className="flex p-3 font-semibold bg-gray-200 flex-col sm:flex-row rounded-xl justify-between">
-                  <h1>Balance - {tran.balanceAfter / 100}</h1>
-                  <h1>{tran.metadata.model}</h1>
-                  <h1>Tokens {tran.metadata.tokens}</h1>
+                  <h1>Balance - {tran?.balanceAfter / 100}</h1>
+                  <h1>
+                    {tran.metadata?.model
+                      ? tran.metadata.model
+                      : `Credits Added - ${tran.amount}`}
+                  </h1>
+                  <h1>
+                    {tran.metadata?.tokens
+                      ? `Tokens ${tran.metadata.tokens}`
+                      : "Credits Added"}
+                  </h1>
                   <h1
                     className={
                       tran.status === "SUCCESS"

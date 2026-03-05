@@ -29,8 +29,6 @@ export const getUserInfo = async (userId: string) => {
     credits: userInfo.credits,
   };
 
-  console.log("User Info ,", User);
-
   return User;
 };
 

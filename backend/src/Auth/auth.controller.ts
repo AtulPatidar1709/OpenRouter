@@ -60,9 +60,7 @@ export const infoController = async (
   try {
     const userId = getUserId(req);
 
-    console.log("USER INFO ,", userId);
     const result = await authService.getUserInfo(userId);
-    console.log("USER result ,", result);
     res.status(201).json({
       user: result,
     });
