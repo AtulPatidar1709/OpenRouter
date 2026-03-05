@@ -22,6 +22,12 @@ app.use(
 
 app.use(cookieParser(config.cookieSecret));
 
+// Handling for RazorPay/Payment webhook.
+app.use(
+  "/api/wallet/payment-verify",
+  express.raw({ type: "application/json" }),
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {

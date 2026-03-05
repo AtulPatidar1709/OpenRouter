@@ -15,9 +15,7 @@ function openRazorPayPopUp({
     name: "OpenRouter App",
     order_id: rzpId,
     notes: {
-      walletIdDetails: JSON.stringify(walletIdDetails),
-      userId: user.id,
-      email: user.email,
+      walletIdDetails: walletIdDetails,
     },
     handler: async (response) => {
       try {
