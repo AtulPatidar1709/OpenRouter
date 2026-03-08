@@ -1,0 +1,295 @@
+# Chat Completions API
+
+Create chat completions using models through the OpenRouter-compatible API.
+
+---
+
+## Endpoint
+
+```
+POST /api/v1/chat/completions
+```
+
+---
+
+## Authentication
+
+Include your API key in the request header.
+
+```
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+```
+
+---
+
+## Request Body
+
+```json
+{
+  "model": "gpt-4",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello!"
+    }
+  ],
+  "max_tokens": 100
+}
+```
+
+---
+
+## Example Using URL
+
+```bash
+curl https://your-domain.com/api/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain AI in simple words"
+      }
+    ]
+  }'
+```
+
+---
+
+## Example Using JavaScript
+
+```ts
+const response = await fetch(
+  "https://your-domain.com/api/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer YOUR_API_KEY",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "user",
+          content: "Hello",
+        },
+      ],
+      max_tokens: 100,
+    }),
+  },
+);
+
+const data = await response.json();
+console.log(data);
+```
+
+---
+
+## Example Using Node.js
+
+```ts
+import fetch from "node-fetch";
+
+async function run() {
+  const response = await fetch(
+    "https://your-domain.com/api/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer YOUR_API_KEY",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "user",
+            content: "Write a short story",
+          },
+        ],
+      }),
+    },
+  );
+
+  const data = await response.json();
+  console.log(data);
+}
+
+run();
+```
+
+---
+
+## Response Example
+
+```json
+{
+  "id": "chatcmpl-abc123",
+  "object": "chat.completion",
+  "created": 1700000000,
+  "model": "gpt-4",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I help you today?"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 9,
+    "completion_tokens": 12,
+    "total_tokens": 21
+  }
+}
+```
+
+---
+
+<h2>Parameters</h2>
+
+<table>
+  <thead>
+    <tr className="bg-white">
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>model</td>
+      <td>string</td>
+      <td>The model to generate the response</td>
+    </tr>
+    <tr>
+      <td>messages</td>
+      <td>array</td>
+      <td>List of conversation messages</td>
+    </tr>
+    <tr>
+      <td>max_tokens</td>
+      <td>number</td>
+      <td>Maximum tokens to generate</td>
+    </tr>
+    <tr>
+      <td>stream</td>
+      <td>boolean</td>
+      <td>Enable streaming responses</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Message Format
+
+Messages follow this structure:
+
+```json
+{
+  "role": "user",
+  "content": "Hello"
+}
+```
+
+Roles supported:
+
+- `system`
+- `user`
+- `assistant`
+
+Example:
+
+```json
+[
+  {
+    "role": "system",
+    "content": "You are a helpful assistant"
+  },
+  {
+    "role": "user",
+    "content": "Explain AI"
+  }
+]
+```
+
+---
+
+## Streaming Example
+
+```ts
+const response = await fetch("/api/chat/completions", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-4",
+    stream: true,
+    messages: [
+      {
+        role: "user",
+        content: "Write a story about space",
+      },
+    ],
+  }),
+});
+```
+
+---
+
+## Error Response
+
+Example error response:
+
+```json
+{
+  "error": {
+    "message": "Invalid API key",
+    "type": "authentication_error"
+  }
+}
+```
+
+---
+
+<h2>Status Codes</h2>
+
+<table>
+  <thead>
+    <tr className="bg-white">
+      <th>Code</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>200</td>
+      <td>Success</td>
+    </tr>
+    <tr>
+      <td>400</td>
+      <td>Bad Request</td>
+    </tr>
+    <tr>
+      <td>401</td>
+      <td>Unauthorized</td>
+    </tr>
+    <tr>
+      <td>429</td>
+      <td>Rate Limit Exceeded</td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td>Server Error</td>
+    </tr>
+  </tbody>
+</table>

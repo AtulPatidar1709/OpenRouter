@@ -8,6 +8,10 @@ import { Loader_Skeleton } from "@/components/skeletons/Loader_Skeleton.js";
 import Pricing from "@/pages/Pricing.js";
 import ModelList from "@/pages/ModelList.js";
 import ApiKeysPage from "@/pages/ApiKeysPage.js";
+import DocsLayout from "@/pages/DocsLayout.js";
+import ChatCompletions from "@/docs/api/chat-completions.mdx";
+import AgenticUsage from "@/docs/guides/agentic-usage.mdx";
+import TypescriptSDK from "@/docs/sdk/typescript.mdx";
 
 const LogIn = lazy(() => import("@/pages/LogIn.js"));
 const SignUp = lazy(() => import("@/pages/SignUp.js"));
@@ -35,6 +39,24 @@ export const routerPaths = createBrowserRouter([
         index: true,
         path: "models",
         element: <ModelList />,
+      },
+      {
+        path: "/docs",
+        element: <DocsLayout />,
+        children: [
+          {
+            path: "guides/agentic-usage",
+            element: <AgenticUsage />,
+          },
+          {
+            path: "api/chat-completions",
+            element: <ChatCompletions />,
+          },
+          {
+            path: "sdk/typescript",
+            element: <TypescriptSDK />,
+          },
+        ],
       },
     ],
   },

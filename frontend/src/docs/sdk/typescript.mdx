@@ -1,0 +1,256 @@
+# TypeScript SDK
+
+The TypeScript SDK provides an easy way to interact with your API without manually writing HTTP requests.
+It simplifies authentication, request formatting, streaming responses, and error handling.
+
+---
+
+## Installation
+
+Install the SDK using npm:
+
+```bash
+npm install @openrouter/sdk
+```
+
+or using yarn:
+
+```bash
+yarn add @openrouter/sdk
+```
+
+---
+
+## Import the SDK
+
+After installation, import the SDK into your project.
+
+```ts
+import OpenRouter from "@openrouter/sdk";
+```
+
+---
+
+## Initialize the Client
+
+Create a client instance using your API key.
+
+```ts
+const client = new OpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+```
+
+You can also pass the API key directly:
+
+```ts
+const client = new OpenRouter({
+  apiKey: "YOUR_API_KEY",
+});
+```
+
+---
+
+## Basic Chat Completion
+
+Send a simple chat completion request.
+
+```ts
+const response = await client.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    {
+      role: "user",
+      content: "Hello!",
+    },
+  ],
+});
+
+console.log(response);
+```
+
+---
+
+## Example Response
+
+```json
+{
+  "id": "chatcmpl-123",
+  "object": "chat.completion",
+  "choices": [
+    {
+      "message": {
+        "role": "assistant",
+        "content": "Hello! How can I help you today?"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Sending Multiple Messages
+
+You can send full conversations by passing multiple messages.
+
+```ts
+const response = await client.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    {
+      role: "system",
+      content: "You are a helpful assistant",
+    },
+    {
+      role: "user",
+      content: "Explain artificial intelligence",
+    },
+  ],
+});
+```
+
+---
+
+## Streaming Responses
+
+Streaming allows you to receive tokens as the model generates them.
+
+```ts
+const stream = await client.chat.completions.create({
+  model: "gpt-4",
+  stream: true,
+  messages: [
+    {
+      role: "user",
+      content: "Write a short poem",
+    },
+  ],
+});
+
+for await (const chunk of stream) {
+  console.log(chunk);
+}
+```
+
+---
+
+## Extracting Streamed Text
+
+To print the generated text as it streams:
+
+```ts
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices?.[0]?.delta?.content ?? "");
+}
+```
+
+---
+
+## Using Custom API Endpoint
+
+If you are running your own OpenRouter-compatible backend, you can specify the base URL.
+
+```ts
+const client = new OpenRouter({
+  apiKey: "YOUR_API_KEY",
+  baseURL: "https://your-domain.com/api/v1",
+});
+```
+
+---
+
+## Error Handling
+
+Always wrap API calls with error handling.
+
+```ts
+try {
+  const response = await client.chat.completions.create({
+    model: "gpt-4",
+    messages: [
+      {
+        role: "user",
+        content: "Hello",
+      },
+    ],
+  });
+
+  console.log(response);
+} catch (error) {
+  console.error("API Error:", error);
+}
+```
+
+---
+
+## Parameters
+
+<h2>Parameters</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr className="bg-white">
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>model</td>
+      <td>string</td>
+      <td>Model to generate completions</td>
+    </tr>
+    <tr>
+      <td>messages</td>
+      <td>array</td>
+      <td>Conversation messages</td>
+    </tr>
+    <tr>
+      <td>max_tokens</td>
+      <td>number</td>
+      <td>Maximum tokens to generate</td>
+    </tr>
+    <tr>
+      <td>temperature</td>
+      <td>number</td>
+      <td>Controls randomness</td>
+    </tr>
+    <tr>
+      <td>stream</td>
+      <td>boolean</td>
+      <td>Enable streaming responses</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Full Example
+
+```ts
+import OpenRouter from "@openrouter/sdk";
+
+async function run() {
+  const client = new OpenRouter({
+    apiKey: process.env.OPENROUTER_API_KEY,
+  });
+
+  const response = await client.chat.completions.create({
+    model: "gpt-4",
+    messages: [
+      {
+        role: "user",
+        content: "Explain TypeScript in simple words",
+      },
+    ],
+  });
+
+  console.log(response);
+}
+
+run();
+```
+
+---

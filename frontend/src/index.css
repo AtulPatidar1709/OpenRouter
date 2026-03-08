@@ -121,3 +121,119 @@
     @apply bg-background text-foreground;
   }
 }
+
+.docs > * + * {
+  margin-top: 1.25rem;
+}
+
+.docs pre {
+  margin-top: 1.5rem;
+}
+
+.docs table {
+  margin-top: 2rem;
+}
+
+.docs {
+  max-width: 760px;
+  margin: auto;
+  color: #000000;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* headings */
+
+.docs h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+.docs h2 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 40px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #262626;
+}
+
+.docs h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+/* text */
+
+.docs p {
+  color: #000000;
+  margin-bottom: 16px;
+}
+
+/* lists */
+
+.docs ul {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.docs li {
+  margin-bottom: 6px;
+}
+
+/* links */
+
+.docs a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+/* code */
+
+.docs code {
+  background: rgb(255, 255, 255);
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #000000;
+  font-size: 14px;
+}
+
+/* code blocks */
+
+.docs pre {
+  background: #ffffff;
+  border: 1px solid #262626;
+  padding: 16px;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin: 24px 0;
+}
+
+/* tables */
+
+.docs table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.docs th,
+.docs td {
+  border: 1px solid #262626;
+  padding: 10px;
+  text-align: left;
+}
+
+.docs thead {
+  background: #111111;
+}
+
+/* hr */
+
+.docs hr {
+  border: none;
+  border-top: 1px solid #262626;
+  margin: 30px 0;
+}

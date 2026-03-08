@@ -1,0 +1,188 @@
+# Agentic Usage
+
+Agentic usage allows AI assistants and developer tools to automatically understand how to use your API and SDK.
+This helps coding assistants generate **correct API calls, SDK usage, and streaming examples** when interacting with your platform.
+
+It is similar to how modern AI platforms expose **agent skills** so tools like Cursor or Copilot know how to use their APIs.
+
+---
+
+## What is Agentic Usage?
+
+Agentic usage means providing structured instructions so AI coding assistants can:
+
+- Install your SDK
+- Authenticate with your API
+- Send chat completion requests
+- Stream responses
+- Handle errors
+
+This allows AI assistants to automatically generate working code for developers.
+
+---
+
+## Quick Start
+
+Add the agent skill to your project using the following command:
+
+```bash
+npx add-skill openrouter-team/agent-skills
+```
+
+This installs a skill that teaches AI assistants how to use your API.
+
+---
+
+## What This Skill Provides
+
+Once installed, your AI assistant will understand:
+
+- How to install the SDK
+- How to authenticate requests
+- How to call chat completions
+- How to stream responses
+- How to handle errors
+- How to structure messages
+
+This dramatically improves AI-generated code accuracy.
+
+---
+
+## Example: Basic Model Call
+
+```ts
+import { callModel } from "@openrouter/sdk";
+
+const response = await callModel({
+  model: "anthropic/claude-3-sonnet",
+  messages: [
+    {
+      role: "user",
+      content: "Hello!",
+    },
+  ],
+});
+
+console.log(response);
+```
+
+---
+
+## Example: Streaming Response
+
+Streaming allows receiving tokens as the model generates them.
+
+```ts
+const stream = await callModel({
+  model: "anthropic/claude-3-sonnet",
+  stream: true,
+  messages: [
+    {
+      role: "user",
+      content: "Tell me a story",
+    },
+  ],
+});
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices?.[0]?.delta?.content ?? "");
+}
+```
+
+---
+
+## Example: Chat Conversation
+
+```ts
+const response = await callModel({
+  model: "gpt-4",
+  messages: [
+    {
+      role: "system",
+      content: "You are a helpful assistant",
+    },
+    {
+      role: "user",
+      content: "Explain machine learning in simple terms",
+    },
+  ],
+});
+```
+
+---
+
+## Updating the Skill
+
+To update the agent skill to the latest version:
+
+```bash
+npx add-skill openrouter-team/agent-skills
+```
+
+This ensures your assistant has the latest usage patterns.
+
+---
+
+## Manual Installation
+
+If you want to manually install the skill file:
+
+```bash
+mkdir -p .skills
+curl -o .skills/openrouter-skill.md \
+https://raw.githubusercontent.com/openrouter-team/agent-skills/main/skills/typescript-sdk.md
+```
+
+This creates a `.skills` folder that AI assistants can read.
+
+---
+
+## How AI Assistants Use This
+
+Modern AI coding tools scan the project for skill files and documentation.
+When they detect the skill, they automatically learn how to interact with your API.
+
+This allows tools to:
+
+- Generate working SDK examples
+- Suggest correct API parameters
+- Automatically format requests
+- Recommend best practices
+
+---
+
+## Supported AI Coding Assistants
+
+The agent skill works with many AI development tools, including:
+
+- Cursor
+- Claude Code
+- GitHub Copilot
+- Roo Code
+- Amp
+- Antigravity
+
+---
+
+## Best Practices
+
+When creating agent skills:
+
+- Provide clear SDK examples
+- Include streaming examples
+- Show authentication setup
+- Document request parameters
+- Include error handling
+
+This helps AI assistants generate higher quality code.
+
+---
+
+## Next Steps
+
+Now that agent skills are installed, you can:
+
+- Build AI applications using the SDK
+- Integrate chat completions into your backend
+- Stream responses in real-time
+- Automate API usage through AI tools
