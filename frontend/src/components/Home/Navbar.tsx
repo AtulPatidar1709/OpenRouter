@@ -16,6 +16,12 @@ export default function Navbar() {
           <Link to={"/models"} className="text-sm text-muted-foreground">
             Models
           </Link>
+          <Link
+            to={"/docs/api/chat-completions"}
+            className="text-sm text-muted-foreground"
+          >
+            Docs
+          </Link>
           <Link to={"/pricing"} className="text-sm text-muted-foreground">
             Pricing
           </Link>

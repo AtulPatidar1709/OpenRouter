@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 export default function FeaturedModels() {
   const models = [
@@ -29,9 +30,12 @@ export default function FeaturedModels() {
         {/* Section Header */}
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-bold">Featured Models</h2>
-          <button className="text-sm text-muted-foreground hover:text-foreground transition">
+          <Link
+            to={"/models"}
+            className="text-sm text-muted-foreground hover:text-foreground transition"
+          >
             View all →
-          </button>
+          </Link>
         </div>
 
         {/* Cards */}
