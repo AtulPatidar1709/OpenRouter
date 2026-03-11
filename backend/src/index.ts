@@ -10,6 +10,16 @@ import modelRoutes from "./MODELS/model.routes.js";
 import walletRoutes from "./WALLET/wallet.routes.js";
 
 import { globalErrorHandler } from "./middleware/globalErrorHandler.js";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  ipv6Subnet: 56,
+});
 
 const app = express();
 
@@ -20,9 +30,12 @@ app.use(
   }),
 );
 
+app.use(helmet());
+
+app.use(limiter);
+
 app.use(cookieParser(config.cookieSecret));
 
-// Handling for RazorPay/Payment webhook.
 app.use(
   "/api/wallet/payment-verify",
   express.raw({ type: "application/json" }),

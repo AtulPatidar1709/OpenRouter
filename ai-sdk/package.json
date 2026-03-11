@@ -1,5 +1,5 @@
 {
-  "name": "@yourorg/ai",
+  "name": "@openrouterlite/sdk",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
