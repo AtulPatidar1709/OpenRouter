@@ -1,6 +1,6 @@
 import { Skeleton } from "../ui/skeleton";
 
-const Order_Loader = () => {
+const SkeletonLoader = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-2">
       <Skeleton className="h-6 w-40" />
@@ -11,4 +11,4 @@ const Order_Loader = () => {
   );
 };
 
-export default Order_Loader;
+export default SkeletonLoader;

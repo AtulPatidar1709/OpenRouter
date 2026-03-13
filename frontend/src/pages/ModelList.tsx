@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { useModelsQuery } from "@/hooks/models.hook";
 import { toast } from "react-toastify";
+import SkeletonLoader from "@/components/skeletons/Order_Loader";
 
 export default function ModelList() {
   const { models, isModelsLoading } = useModelsQuery();
   const [searchTerm, setSearchTerm] = useState("");
 
-  if (isModelsLoading) return <div>Loading...</div>;
+  if (isModelsLoading) return <SkeletonLoader />;
   if (!models || models.length === 0) return <div>No Models Found</div>;
 
   const filteredModels = models.filter((model) =>

@@ -1,4 +1,5 @@
 import AddCreditsDialog from "@/components/AddCreditsDialog";
+import SkeletonLoader from "@/components/skeletons/Order_Loader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useUserQuery } from "@/hooks/auth.hooks";
@@ -16,7 +17,7 @@ const CreditsPage = () => {
     addRazorPayQueryScript();
   }, []);
 
-  if (isUserLoading || walletisLoading) return <div>Loading...</div>;
+  if (isUserLoading || walletisLoading) return <SkeletonLoader />;
 
   if (isUserError || walletisError) return <div>Error in Fetching User.</div>;
 

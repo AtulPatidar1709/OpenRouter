@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Copy, MoreVertical } from "lucide-react";
 import { useApiKeys, useApiKeysQuery } from "@/hooks/apiKeys.hook";
 import { toast } from "react-toastify";
+import SkeletonLoader from "../skeletons/Order_Loader";
 
 export const ApiKeysTable = () => {
   const { apiKeys, isApiKeysError, isApiKeysLoading } = useApiKeysQuery();
@@ -17,9 +18,7 @@ export const ApiKeysTable = () => {
     useApiKeys();
 
   if (isApiKeysLoading) {
-    return (
-      <div className="text-sm text-muted-foreground">Loading API keys...</div>
-    );
+    return <SkeletonLoader />;
   }
 
   if (isApiKeysError) {
