@@ -7,7 +7,7 @@ export default function DocsLayout() {
       <DocsSidebar />
 
       <main className="flex-1 flex justify-center">
-        <div className="w-full max-w-6xl px-12 py-16">
+        <div className="w-full max-w-6xl px-2 py-2">
           <article className="docs">
             <Outlet />
           </article>

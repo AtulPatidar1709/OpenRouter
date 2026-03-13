@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export default function DocsSidebar() {
   return (
-    <aside className="w-[240px] border-r border-neutral-800 px-6 py-10">
+    <aside className="w-[240px] border-r border-neutral-800 py-10 px-2">
       <h2 className="text-lg font-semibold mb-8 text-white">Documentation</h2>
 
       {docsNavigation.map((section) => (
