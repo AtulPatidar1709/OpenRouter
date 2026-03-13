@@ -21,7 +21,7 @@ const CreditsPage = () => {
 
   if (isUserError || walletisError) return <div>Error in Fetching User.</div>;
 
-  const credits = user.credits / 100;
+  const credits = user?.credits / 100;
 
   return (
     <div className="min-h-screen bg-muted/40 px-4 py-8">
