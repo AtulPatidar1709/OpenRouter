@@ -10,13 +10,13 @@ It simplifies authentication, request formatting, streaming responses, and error
 Install the SDK using npm:
 
 ```bash
-npm install @openrouter/sdk
+npm install openrouterlite-sdk
 ```
 
 or using yarn:
 
 ```bash
-yarn add @openrouter/sdk
+yarn add openrouterlite-sdk
 ```
 
 ---
@@ -26,7 +26,7 @@ yarn add @openrouter/sdk
 After installation, import the SDK into your project.
 
 ```ts
-import OpenRouter from "@openrouter/sdk";
+import OpenRouter from "openrouterlite-sdk";
 ```
 
 ---
@@ -154,7 +154,7 @@ If you are running your own OpenRouter-compatible backend, you can specify the b
 ```ts
 const client = new OpenRouter({
   apiKey: "YOUR_API_KEY",
-  baseURL: "https://openrouter-rsjp.onrender.com/api/v1",
+  baseURL: "https://openrouter-rsjp.onrender.com/api/",
 });
 ```
 
@@ -230,7 +230,7 @@ try {
 ## Full Example
 
 ```ts
-import OpenRouter from "@openrouter/sdk";
+import OpenRouter from "openrouterlite-sdk";
 
 async function run() {
   const client = new OpenRouter({
