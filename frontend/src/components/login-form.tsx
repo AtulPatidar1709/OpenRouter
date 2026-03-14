@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -24,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/hooks/auth.hooks";
 import { loginSchema, type LoginInput } from "@/types/auth.schema";
+import { Link } from "react-router-dom";
 
 export function LoginForm({
   className,
@@ -109,7 +111,8 @@ export function LoginForm({
                     Login
                   </Button>
                   <FieldDescription className="text-center">
-                    Don&apos;t have an account? <a href="/signup">Sign up</a>
+                    Don&apos;t have an account?{" "}
+                    <Link to="/signup">Sign up</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>

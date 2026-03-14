@@ -20,9 +20,7 @@ export default function ModelList() {
 
   return (
     <div className="flex flex-col md:flex-row max-w-7xl mx-auto px-4 py-12 gap-8">
-      {/* Main Content */}
       <main className="flex-1 space-y-8">
-        {/* Search + count */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Models</h1>
           <p className="text-muted-foreground">
@@ -38,7 +36,6 @@ export default function ModelList() {
           />
         </div>
 
-        {/* Model List */}
         <ul className="space-y-6">
           {filteredModels.map((model) => (
             <li key={model.id} className="border-b border-gray-200 pb-6">
