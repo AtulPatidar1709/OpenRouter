@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/types/auth.schema";
 import { useAuth } from "@/hooks/auth.hooks";
+import { Link } from "react-router-dom";
 
 export function SignupForm({
   className,
@@ -140,7 +141,7 @@ export function SignupForm({
                     Create Account
                   </Button>
                   <FieldDescription className="text-center">
-                    Already have an account? <a href="/login">Sign in</a>
+                    Already have an account? <Link to="/login">Sign in</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>
