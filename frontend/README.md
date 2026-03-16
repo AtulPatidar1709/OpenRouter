@@ -1,75 +1,251 @@
-# React + TypeScript + Vite
+# OpenRouter Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern AI chat frontend built using **React**, **TanStack Query**, **Shadcn UI**, and **TailwindCSS**.  
+This application provides a clean interface to interact with an OpenRouter-compatible backend API.
 
-Currently, two official plugins are available:
+It supports:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Chat completions
+- Streaming responses
+- Modern UI components
+- Efficient API state management
+- Fast development using TailwindCSS
 
-## React Compiler
+---
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+# Tech Stack
 
-Note: This will impact Vite dev & build performances.
+- **React** – UI library
+- **TanStack Query** – API state management
+- **Shadcn UI** – Accessible component library
+- **TailwindCSS** – Utility-first styling
+- **TypeScript** – Type-safe development
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Modern AI chat interface
+- Streaming AI responses
+- Component-based UI
+- Efficient data fetching
+- Clean and responsive layout
+- Reusable UI components
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Project Structure
+
+```
+src
+ ├── components
+ │   ├── ui
+ │   ├── chat
+ │
+ ├── features
+ │   ├── chat
+ │
+ ├── hooks
+ │
+ ├── lib
+ │
+ ├── services
+ │
+ ├── pages
+ │
+ └── App.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Clone the repository:
+
+```bash
+git clone https://github.com/AtulPatidar1709/OpenRouter.git
 ```
+
+Navigate into the project:
+
+```bash
+cd openrouter/frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+# Running the Development Server
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The application will run on:
+
+```
+http://localhost:5173
+```
+
+---
+
+# Environment Variables
+
+create file `.env` add replace with `.env.example` variables.
+
+# Using TanStack Query
+
+TanStack Query is used to manage API requests and caching.
+
+Example query:
+
+```ts
+import { useQuery } from "@tanstack/react-query";
+
+const { data, isLoading } = useQuery({
+  queryKey: ["chat"],
+  queryFn: async () => {
+    const res = await fetch("/api/chat");
+    return res.json();
+  },
+});
+```
+
+Benefits:
+
+- automatic caching
+- background refetching
+- request deduplication
+- simplified loading states
+
+---
+
+# Creating UI Components with Shadcn UI
+
+Shadcn UI provides accessible and customizable components.
+
+Example:
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+export function SendButton() {
+  return <Button>Send Message</Button>;
+}
+```
+
+Install new components using:
+
+```bash
+npx shadcn-ui@latest add button
+```
+
+---
+
+# Styling with TailwindCSS
+
+TailwindCSS is used for styling.
+
+Example:
+
+```tsx
+<div className="flex items-center justify-center h-screen">
+  <h1 className="text-2xl font-bold">OpenRouter Chat</h1>
+</div>
+```
+
+Benefits:
+
+- fast styling
+- responsive utilities
+- minimal CSS files
+- consistent design system
+
+---
+
+# Chat Request Example
+
+Example request to your backend:
+
+```ts
+const response = await fetch("/api/chat/completions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-4",
+    messages: [
+      {
+        role: "user",
+        content: "Hello!",
+      },
+    ],
+  }),
+});
+
+const data = await response.json();
+```
+
+---
+
+# Streaming Responses
+
+The UI supports streaming responses from the backend.
+
+Example streaming logic:
+
+```ts
+const response = await fetch("/api/v1/chat/completions", {
+  method: "POST",
+  body: JSON.stringify({
+    model: "gpt-4",
+    stream: true,
+    messages: [{ role: "user", content: "Write a poem" }],
+  }),
+});
+
+const reader = response.body?.getReader();
+```
+
+Streaming allows the UI to display tokens as they are generated.
+
+---
+
+# Build for Production
+
+To build the project:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+Steps:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
+
+---
+
+# License
+
+MIT
