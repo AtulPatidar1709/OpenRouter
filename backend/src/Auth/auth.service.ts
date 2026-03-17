@@ -99,6 +99,7 @@ export const login = async (data: loginInputTypes) => {
     id: user.id,
     email: user.email,
     isVerified: user.isVerified,
+    credits: user.credits,
   };
 
   return { accessToken, refreshToken, User };
