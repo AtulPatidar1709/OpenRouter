@@ -23,10 +23,6 @@ const CreditsPage = () => {
 
   const credits = user.credits / 100;
 
-  console.log("User ,", user);
-  console.log("User Credits ,", user.credits);
-  console.log("Credits ,", credits);
-
   return (
     <div className="min-h-screen bg-muted/40 px-4 py-8">
       <div className="mx-auto max-w-5xl space-y-6">

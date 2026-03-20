@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
   InputOTP,
@@ -14,28 +15,23 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+
 import { RefreshCwIcon } from "lucide-react";
 import { useState } from "react";
 import { useUserQuery } from "../hooks/auth.hooks";
-import { useQueryClient } from "@tanstack/react-query";
 import { useOtp } from "../hooks/useOtp";
+import { Link } from "react-router-dom";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
 
   const { user } = useUserQuery();
-  const queryClient = useQueryClient();
 
   const { verifyOtp, resendOtp, isVerifying, isResending } = useOtp();
 
   const handleVerify = () => {
     if (otp.length !== 6) return;
-
-    verifyOtp(otp, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-      },
-    });
+    verifyOtp(otp);
   };
 
   const handleResend = () => {
@@ -95,23 +91,22 @@ const VerifyOtp = () => {
       </CardContent>
       <CardFooter>
         <Field>
-          <button
+          <Button
+            className="w-full"
             type="submit"
             onClick={handleVerify}
             disabled={isVerifying || otp.length !== 6}
           >
-            <Button className="w-full">
-              {isVerifying ? "Verifying..." : "Verify"}
-            </Button>
-          </button>
+            {isVerifying ? "Verifying..." : "Verify"}
+          </Button>
           <div className="text-muted-foreground text-sm">
             Having trouble signing in?{" "}
-            <a
-              href="#"
+            <Link
+              to="/"
               className="hover:text-primary underline underline-offset-4 transition-colors"
             >
               Contact support
-            </a>
+            </Link>
           </div>
         </Field>
       </CardFooter>

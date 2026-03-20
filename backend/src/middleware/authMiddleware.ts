@@ -1,9 +1,9 @@
-import { Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { AuthenticatedRequest } from '../types/AuthenticatedRequestTypes.js';
-import { AppError } from '../utils/AppError.js';
-import { config } from '../config/config.js';
-import { isJwtPayload } from '../types/isJwtPayload.js';
+import { Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { AuthenticatedRequest } from "../types/AuthenticatedRequestTypes.js";
+import { AppError } from "../utils/AppError.js";
+import { config } from "../config/config.js";
+import { isJwtPayload } from "../types/isJwtPayload.js";
 
 export const requireAuth = (
   req: AuthenticatedRequest,
@@ -14,14 +14,14 @@ export const requireAuth = (
     const token = req.signedCookies?.accessToken;
 
     if (!token) {
-      throw new AppError('Not logged in', 401);
+      throw new AppError("Not logged in", 401);
     }
 
     const decoded = jwt.verify(token, config.jwtSecret!) as unknown;
 
     // Use type guard
     if (!isJwtPayload(decoded)) {
-      throw new AppError('Invalid token payload', 401);
+      throw new AppError("Invalid token payload", 401);
     }
 
     req.user = {
@@ -31,11 +31,11 @@ export const requireAuth = (
     next();
   } catch (err: unknown) {
     if (err instanceof jwt.JsonWebTokenError) {
-      return next(new AppError('Invalid token', 401));
+      return next(new AppError("Invalid token", 401));
     }
 
     if (err instanceof jwt.TokenExpiredError) {
-      return next(new AppError('Token expired', 401));
+      return next(new AppError("Token expired", 401));
     }
 
     next(err);

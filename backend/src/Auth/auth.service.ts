@@ -142,8 +142,9 @@ export const sendOtp = async (data: sendOtpInputType) => {
 };
 
 export const verifyOtp = async (data: OtpVerifyInput) => {
+  const otp = data.otp;
   const record = await prisma.oTPVerification.findFirst({
-    where: { userId: data.userId, otp: data.otp, verified: false },
+    where: { userId: data.userId, otp: otp, verified: false },
   });
 
   if (!record || record.expiresAt < new Date()) {
@@ -155,10 +156,11 @@ export const verifyOtp = async (data: OtpVerifyInput) => {
       where: { id: record.id },
     }),
     prisma.user.update({
-      where: { id: data.userId },
+      where: { id: record.userId },
       data: { isVerified: true },
     }),
   ]);
+
   return { message: "Account verified" };
 };
 
