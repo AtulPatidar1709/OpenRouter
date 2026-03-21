@@ -35,14 +35,14 @@ export const loginController = async (
     res.cookie("accessToken", result.accessToken, {
       httpOnly: true,
       signed: true,
-      // sameSite: "none",
+      sameSite: "none",
       secure: config.environment === "production",
       maxAge: 15 * 60 * 1000,
     });
     res.cookie("refreshToken", result.refreshToken, {
       httpOnly: true,
       signed: true,
-      // sameSite: "none",
+      sameSite: "none",
       secure: config.environment === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
